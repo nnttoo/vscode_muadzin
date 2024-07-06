@@ -15,7 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 				const panel = vscode.window.createWebviewPanel(
 					'webViewExample', // Identifikasi untuk webview
-					'WebView Example', // Judul untuk panel
+					'Muadzin Setting', // Judul untuk panel
 					vscode.ViewColumn.One, // Editor column untuk menampilkan webview
 					{} // Opsi tambahan untuk WebView
 				);
@@ -24,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
 				panel.webview.html = `
 				<html>
 					<body>
-						<h1>Hallow Ma brooo</h1>
+						<h1>Hallow Mas brooo</h1>
 					</body>
 				</html>
 				`
