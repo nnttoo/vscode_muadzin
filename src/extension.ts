@@ -1,37 +1,71 @@
 import * as vscode from 'vscode';
 import { muadzinRegisterButton } from './sidebarButton';
+import * as fs from 'fs';
+import * as path from 'path';
+import { MyServer } from './myserver';
 
 /**
  * @param {vscode.ExtensionContext} context
  */
-export function activate(context: vscode.ExtensionContext) { 
+export function activate(context: vscode.ExtensionContext) {
 
-	muadzinRegisterButton(context,[
+	muadzinRegisterButton(context, [
 		{
-			commandName : "muadzin_openwebview",
-			method : ()=>{
-
-				vscode.window.showInformationMessage('Hello World open webview loh');
-
-				const panel = vscode.window.createWebviewPanel(
-					'webViewExample', // Identifikasi untuk webview
-					'Muadzin Setting', // Judul untuk panel
-					vscode.ViewColumn.One, // Editor column untuk menampilkan webview
-					{} // Opsi tambahan untuk WebView
-				);
-	
-				// Konten HTML untuk ditampilkan di WebView
-				panel.webview.html = `
-				<html>
-					<body>
-						<h1>Hallow Mas brooo</h1>
-					</body>
-				</html>
-				`
+			commandName: "muadzin_openwebview",
+			method: () => { 
+				openWebView(context);
 			},
-			name : "Muadzin Setting"
+			name: "Muadzin Setting"
 		}
 	]);
-} 
+}
 
-export function deactivate() {}
+function openWebView(context: vscode.ExtensionContext) {
+	const panel = vscode.window.createWebviewPanel(
+		'webViewExample',
+		'Muadzin Setting',
+		vscode.ViewColumn.One,
+		{
+			enableScripts: true,
+			
+		}
+	);
+
+	const scriptUri = panel.webview.asWebviewUri(vscode.Uri.file(
+		path.join(context.extensionPath, 'resources', 'media', 'script.js')
+	));
+
+	let myserver = MyServer.instance;
+	var urladdress = myserver.createServer();
+
+	
+
+
+	let htmlContent = `
+	<html>
+		<body>
+			<h1>Ini dia test aja</h1>
+			<textarea id="myresponse"></textarea>
+			<script> 
+				(async () => {
+					let myserveradd = "MYSERVERADD"; 
+					console.log("start request " + myserveradd);
+					let r = await fetch(myserveradd);
+					let txt = await r.text();
+			
+					/** @type {HTMLTextAreaElement} **/             
+					var elemResponse =  document.querySelector("#myresponse") ;
+					elemResponse.value = txt;            
+					console.log(myserveradd);
+				})(); 
+			</script>
+		</body>
+	</html>
+	`;
+
+	const finalHtml = htmlContent.replace('MYSERVERADD', urladdress);
+
+	panel.webview.html = finalHtml
+}
+
+export function deactivate() { }

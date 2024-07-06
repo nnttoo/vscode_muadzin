@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+    <h1>Hallo masbro apa kabar</h1>
+
+    <textarea id="myresponse"></textarea>
+    <script>
+
+        (async () => {
+            let r = await fetch("MYSERVERADD");
+            let txt = await r.text();
+    
+            /** @type {HTMLTextAreaElement} **/             
+            var elemResponse =  document.querySelector("#myresponse") ;
+            elemResponse.value = text;            
+            
+            
+        })();
+    </script>
+</body> 
+
+</html>
