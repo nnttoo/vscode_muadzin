@@ -23,21 +23,17 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "package-explorer",
-          "title": "Package Explorer",
+          "id": "muadzin-setting",
+          "title": "Muadzin Setting",
           "icon": "resources/icon/muadzin.svg"
         }
       ]
     },
     "views": {
-      "package-explorer": [
+      "muadzin-setting": [
         {
           "id": "package-dependencies",
-          "name": "Dependencies"
-        },
-        {
-          "id": "package-outline",
-          "name": "Outline"
+          "name": "Muadzin"
         }
       ]
     }
