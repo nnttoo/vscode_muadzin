@@ -1,22 +1,60 @@
 <script setup lang="ts">
-import { onMounted, ref} from "vue"
-import {PrayTimeData, getPrayTimes} from "./server_API.ts"
-import Second from "./second.vue" 
+import { onMounted, onUpdated, ref, toRaw } from "vue"
+import * as serverApi from "./server_API.ts"
+import Second from "./second.vue"
+
+const data = ref<serverApi.PrayTimeData>({} as serverApi.PrayTimeData);
+const configData = ref<serverApi.ConfigData>({} as serverApi.ConfigData);
+
+onUpdated(()=>{
+    console.log(toRaw(configData.value));
+})
 
 
-const data  = ref<PrayTimeData>({} as PrayTimeData) 
+onMounted(() => {
+    const getPrayTime = async () => {
+        var praytime = await serverApi.getPrayTimes();
+        if (praytime == null) return;
+        data.value = praytime;
+    }
 
+    const getConfigData = async () => {
+        let result = await serverApi.getSetting();
+        if(result == null) return; 
+        configData.value = result;
+    }
 
-onMounted(async ()=>{
-    var praytime = await getPrayTimes();  
-    if(praytime == null) return; 
-    data.value = praytime; 
+    getPrayTime();
+    getConfigData();
+
 });
+
+function getNumberFromVal(e : Event){
+    let txt = (e.target as HTMLInputElement).value;
+    let n = 0;
+    try {
+        
+        let nn = Number(txt);
+        if(!Number.isNaN(nn)){
+            n = nn;
+        }
+
+    } catch (error) {
+        
+    }
+
+    return n;
+}
 
 
 </script>
 <template>
     <div class="mainframe">
+
+        <div>Lattitude : </div>
+        <input  :value="configData?.lat" @input="configData.lat = getNumberFromVal($event)"/>
+        <div>Longitude : </div>
+        <input  :value="configData?.lng"/>
         <h1>Adzan Time</h1>
 
         <table>
@@ -26,12 +64,11 @@ onMounted(async ()=>{
                 <td> {{ data[k] }} </td>
             </tr>
         </table>
-         
+
     </div>
 </template>
 <style scoped>
-
-    .mainframe h1{
-        color : red
-    }
+.mainframe h1 {
+    color: red
+}
 </style>

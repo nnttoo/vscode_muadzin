@@ -44,4 +44,7 @@ class MyWebViewProvider implements vscode.WebviewViewProvider {
 
 
 
-export function deactivate() { }
+export function deactivate() {
+
+	MyServer.instance.closeServer();
+ }

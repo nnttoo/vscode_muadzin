@@ -17,5 +17,5 @@
 
 	},
 	
-	"exclude": ["node_modules", "resources/htmlvue/vue_component"]
+	"exclude": [ "out", "resources"]
 }

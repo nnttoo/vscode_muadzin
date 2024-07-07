@@ -36,6 +36,8 @@ function getFullUrl(relative:string){
 async function getJsonFromServer(add : string){
     let res = await fetch(getFullUrl(add));
     let tst = await res.text();
+
+    console.log(tst);
     return JSON.parse(tst);
 }
 
@@ -56,7 +58,7 @@ export async function getPrayTimes() : Promise<PrayTimeData> {
 export async function getSetting() : Promise<ConfigData> {
     try { 
         
-        let obj = await getJsonFromServer("/getsetting") as ConfigData  
+        let obj = await getJsonFromServer("/getconfig") as ConfigData  
         return obj;        
     } catch (error) {
         

@@ -50,30 +50,23 @@ export class MyServer {
 
 
         app.use("/static", express.static(path.join(context.extensionPath,"resources", "htmlvue")));
+        app.get("/getconfig",(r,s)=>{
+           
+            s.setHeader('Content-Type', 'text/plain');
+            s.send("jahhhhhhhhhhhhh");
 
-        app.get("/gettimes", (r, s) => {
- 
+        });
 
+        app.get("/gettimes", (r, s) => { 
 
             let cursetting = settingSaver.getSetting();  
-            let prayTime = PrayTimes.getTimes(new Date, cursetting.lat, cursetting.lng)
-         
-
-
+            let prayTime = PrayTimes.getTimes(new Date, cursetting.lat, cursetting.lng) 
             s.setHeader('Content-Type', 'text/plain');
             s.send(JSON.stringify(prayTime));
  
         });
 
-        app.get("/getsetting",(r,s)=>{
-            let cursetting = settingSaver.getSetting(); 
-
-
-            s.setHeader('Content-Type', 'text/plain');
-            s.send(JSON.stringify(cursetting));
-
-        });
-
+       
 
         this.server = app.listen(0)
         var actualPort = (this.server as any)?.address().port;
