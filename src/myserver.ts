@@ -51,9 +51,9 @@ export class MyServer {
 
         app.use("/static", express.static(path.join(context.extensionPath,"resources", "htmlvue")));
         app.get("/getconfig",(r,s)=>{
-           
+            let cursetting = settingSaver.getSetting();  
             s.setHeader('Content-Type', 'text/plain');
-            s.send("jahhhhhhhhhhhhh");
+            s.send(JSON.stringify(cursetting));
 
         });
 
