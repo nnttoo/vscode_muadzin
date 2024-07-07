@@ -1,8 +1,10 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as PrayTimes from "./PrayTimes.js"
  
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
+import { SettingSaver } from './settingsaver.js';
 
  
 
@@ -29,6 +31,10 @@ export class MyServer {
     }
 
     public createServer(context: vscode.ExtensionContext) {
+ 
+        let settingSaver = new SettingSaver(context); 
+
+
         const app = express();
 
         app.use((req, res, next) => {
@@ -45,15 +51,27 @@ export class MyServer {
 
         app.use("/static", express.static(path.join(context.extensionPath,"resources", "htmlvue")));
 
-        app.get("/getcontent", (r, s) => {
+        app.get("/gettimes", (r, s) => {
+ 
+
+
+            let cursetting = settingSaver.getSetting();  
+            let prayTime = PrayTimes.getTimes(new Date, cursetting.lat, cursetting.lng)
+         
+
+
             s.setHeader('Content-Type', 'text/plain');
-            s.send("haloooooo");
+            s.send(JSON.stringify(prayTime));
+ 
         });
 
 
         this.server = app.listen(0)
         var actualPort = (this.server as any)?.address().port;
-        return `http://localhost:${actualPort}`;
+
+        var actAdds =  `http://localhost:${actualPort}`;
+        console.log(actAdds);
+        return actAdds;
     }
 
 

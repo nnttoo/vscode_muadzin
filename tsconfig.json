@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"allowJs": true,
 		"module": "Node16",
 		"target": "ES2022",
 		"outDir": "out",

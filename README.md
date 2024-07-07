@@ -13,5 +13,10 @@
    - Build Vue.js infrastructure (http static, vue3-sfc-loader, etc) ``✅ done``  
 
 - testing pray time library
+  - convert to export typescript
+  - test run
+
+  ![hasil](./doc_img/jadwalshalat.png)
+
 - Build UI
 - Deploy
