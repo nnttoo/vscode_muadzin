@@ -11,6 +11,12 @@ export type PrayTimeData = {
     midnight: string,
 }
 
+export type ConfigData = {
+    lat : number,
+    lng : number,
+}
+
+
 function getFullUrl(relative:string){
     var add =  (window as any).myserveradd as string;
 
@@ -26,14 +32,31 @@ function getFullUrl(relative:string){
 
 }
 
+
+async function getJsonFromServer(add : string){
+    let res = await fetch(getFullUrl(add));
+    let tst = await res.text();
+    return JSON.parse(tst);
+}
+
+
 export async function getPrayTimes() : Promise<PrayTimeData> {
     try {
+ 
+        let obj = await getJsonFromServer("/gettimes") as PrayTimeData  
+        return obj;        
+    } catch (error) {
+        
+    }
 
-        let res = await fetch(getFullUrl("/gettimes"));
-        let tst = await res.text();
+    return null;
+}
 
-        let obj = JSON.parse(tst) as PrayTimeData;
 
+export async function getSetting() : Promise<ConfigData> {
+    try { 
+        
+        let obj = await getJsonFromServer("/getsetting") as ConfigData  
         return obj;        
     } catch (error) {
         

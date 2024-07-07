@@ -65,6 +65,15 @@ export class MyServer {
  
         });
 
+        app.get("/getsetting",(r,s)=>{
+            let cursetting = settingSaver.getSetting(); 
+
+
+            s.setHeader('Content-Type', 'text/plain');
+            s.send(JSON.stringify(cursetting));
+
+        });
+
 
         this.server = app.listen(0)
         var actualPort = (this.server as any)?.address().port;
