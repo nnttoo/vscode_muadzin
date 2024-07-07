@@ -10,7 +10,7 @@
    
    - Create webview    ``✅ done``               
    - Build express server ``✅ done``  
-   - Build Vue.js infrastructure (http static, vue3-sfc-loader, etc)
+   - Build Vue.js infrastructure (http static, vue3-sfc-loader, etc) ``✅ done``  
 
 - testing pray time library
 - Build UI

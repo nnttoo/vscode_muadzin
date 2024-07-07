@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
 	]);
 }
 
-function openWebView(context: vscode.ExtensionContext) {
+async function openWebView(context: vscode.ExtensionContext) {
 	const panel = vscode.window.createWebviewPanel(
 		'webViewExample',
 		'Muadzin Setting',
@@ -31,40 +31,14 @@ function openWebView(context: vscode.ExtensionContext) {
 		}
 	);
 
-	const scriptUri = panel.webview.asWebviewUri(vscode.Uri.file(
-		path.join(context.extensionPath, 'resources', 'media', 'script.js')
-	));
-
+	 
 	let myserver = MyServer.instance;
-	var urladdress = myserver.createServer();
+	var urladdress = myserver.createServer(context);
 
 	
-
-
-	let htmlContent = `
-	<html>
-		<body>
-			<h1>Ini dia test aja</h1>
-			<textarea id="myresponse"></textarea>
-			<script> 
-				(async () => {
-					let myserveradd = "MYSERVERADD"; 
-					console.log("start request " + myserveradd);
-					let r = await fetch(myserveradd);
-					let txt = await r.text();
-			
-					/** @type {HTMLTextAreaElement} **/             
-					var elemResponse =  document.querySelector("#myresponse") ;
-					elemResponse.value = txt;            
-					console.log(myserveradd);
-				})(); 
-			</script>
-		</body>
-	</html>
-	`;
-
-	const finalHtml = htmlContent.replace('MYSERVERADD', urladdress);
-
+	const filePath = path.join(context.extensionPath, "resources","htmlvue", "index.html"); 
+	const htmlContent = await fs.promises.readFile(filePath,   'utf8');  
+	const finalHtml = htmlContent.replaceAll('MYSERVERADD', urladdress); 
 	panel.webview.html = finalHtml
 }
 

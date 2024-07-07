@@ -1,3 +1,5 @@
+import * as vscode from 'vscode';
+import * as path from 'path';
  
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
@@ -26,7 +28,7 @@ export class MyServer {
         return this._instance;
     }
 
-    public createServer() {
+    public createServer(context: vscode.ExtensionContext) {
         const app = express();
 
         app.use((req, res, next) => {
@@ -40,6 +42,9 @@ export class MyServer {
             }
         });
 
+
+        app.use("/static", express.static(path.join(context.extensionPath,"resources", "htmlvue")));
+
         app.get("/getcontent", (r, s) => {
             s.setHeader('Content-Type', 'text/plain');
             s.send("haloooooo");
@@ -48,7 +53,7 @@ export class MyServer {
 
         this.server = app.listen(0)
         var actualPort = (this.server as any)?.address().port;
-        return `http://localhost:${actualPort}/getcontent`;
+        return `http://localhost:${actualPort}`;
     }
 
 
