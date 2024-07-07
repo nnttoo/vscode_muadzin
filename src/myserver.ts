@@ -4,10 +4,24 @@ import * as PrayTimes from "./PrayTimes.js"
  
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
-import { SettingSaver } from './settingsaver.js';
+import { ConfigData, SettingSaver } from './settingsaver.js';
 
  
+async function readBody(req: express.Request) {
+    let bodystr: any = await new Promise((r, x) => {
+        let fileData: Buffer[] = [];
+        req.on("data", (chunk) => {
+            fileData.push(chunk);
+        });
 
+        req.on("end", () => {
+            const fileBuffer = Buffer.concat(fileData);
+            r(fileBuffer);
+        })
+    });
+
+    return bodystr;
+}
 
 export class MyServer {
     private server: Server | null = null;
@@ -56,6 +70,28 @@ export class MyServer {
             s.send(JSON.stringify(cursetting));
 
         });
+
+        app.post("/saveconfig", async (r,s)=>{
+
+            let body =  await readBody(r);
+
+            try {
+                
+                let bodyStr = body.toString();
+                let obj = JSON.stringify(bodyStr);
+
+                settingSaver.saveSetting((obj as any) as ConfigData);
+
+
+            } catch (error) {
+                
+            }
+
+            console.log();
+
+            s.send("haloooo");
+
+        })
 
         app.get("/gettimes", (r, s) => { 
 

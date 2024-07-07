@@ -29,6 +29,9 @@ export class SettingSaver{
     }
 
     saveSetting(cdata : ConfigData){
+        if(cdata.lat == null) return;
+        if(cdata.lng == null) return;
+
         this.context?.globalState.update("muadzin.config.lat",cdata.lat);
         this.context?.globalState.update("muadzin.config.lng",cdata.lng);
     }

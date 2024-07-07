@@ -66,3 +66,23 @@ export async function getSetting() : Promise<ConfigData> {
 
     return null;
 }
+
+export async function saveConfig(configData : ConfigData) {
+    
+    try {
+        
+        let res = await fetch(getFullUrl("/saveconfig"),{
+            method : "POST",
+            body : JSON.stringify(configData),
+        });
+
+        let txt = await res.text();
+
+        return txt;
+
+    } catch (error) {
+        
+    }
+
+    return '';
+}

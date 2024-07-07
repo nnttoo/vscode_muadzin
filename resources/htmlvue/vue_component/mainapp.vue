@@ -5,11 +5,9 @@ import Second from "./second.vue"
 
 const data = ref<serverApi.PrayTimeData>({} as serverApi.PrayTimeData);
 const configData = ref<serverApi.ConfigData>({} as serverApi.ConfigData);
+const msgLoading = ref<string>("");
 
-onUpdated(()=>{
-    console.log(toRaw(configData.value));
-})
-
+ 
 
 onMounted(() => {
     const getPrayTime = async () => {
@@ -20,7 +18,7 @@ onMounted(() => {
 
     const getConfigData = async () => {
         let result = await serverApi.getSetting();
-        if(result == null) return; 
+        if (result == null) return;
         configData.value = result;
     }
 
@@ -29,32 +27,55 @@ onMounted(() => {
 
 });
 
-function getNumberFromVal(e : Event){
+function getNumberFromVal(e: Event) {
     let txt = (e.target as HTMLInputElement).value;
     let n = 0;
     try {
-        
+
         let nn = Number(txt);
-        if(!Number.isNaN(nn)){
+        if (!Number.isNaN(nn)) {
             n = nn;
         }
 
     } catch (error) {
-        
+
     }
 
     return n;
+}
+
+const saveConfig = async ()=>{
+    msgLoading.value = "save to config";
+
+
+    let cdata = toRaw(configData.value);
+
+    await serverApi.saveConfig(cdata);
+
+    msgLoading.value = "";
+
 }
 
 
 </script>
 <template>
     <div class="mainframe">
+        <div>{{ msgLoading }}</div>
 
-        <div>Lattitude : </div>
-        <input  :value="configData?.lat" @input="configData.lat = getNumberFromVal($event)"/>
-        <div>Longitude : </div>
-        <input  :value="configData?.lng"/>
+        <div class="setttingform">
+            <div>Lattitude : </div>
+            <input :value="configData?.lat" @input="configData.lat = getNumberFromVal($event)" />
+            <div>Longitude : </div>
+            <input :value="configData?.lng" @input="configData.lng = getNumberFromVal($event)" />
+
+            <div>
+
+                <button @click="saveConfig()" >Save</button>
+            </div>
+        </div>
+
+
+
         <h1>Adzan Time</h1>
 
         <table>
@@ -70,5 +91,10 @@ function getNumberFromVal(e : Event){
 <style scoped>
 .mainframe h1 {
     color: red
+}
+.setttingform{
+    margin-bottom: 10px;
+    background-color: rgb(227, 250, 242);
+    padding: 10px;
 }
 </style>
