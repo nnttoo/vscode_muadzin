@@ -93,8 +93,9 @@ const saveConfig = async ()=>{
     color: red
 }
 .setttingform{
+    color: #000;
     margin-bottom: 10px;
-    background-color: rgb(227, 250, 242);
+    background-color: rgb(241, 245, 244);
     padding: 10px;
 }
 </style>

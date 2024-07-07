@@ -78,7 +78,7 @@ export class MyServer {
             try {
                 
                 let bodyStr = body.toString();
-                let obj = JSON.stringify(bodyStr);
+                let obj = JSON.parse(bodyStr);
 
                 settingSaver.saveSetting((obj as any) as ConfigData);
 
