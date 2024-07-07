@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref} from "vue"
-import {PrayTimeData, getPrayTimes} from "./getfromserver.ts"
+import {PrayTimeData, getPrayTimes} from "./server_API.ts"
 import Second from "./second.vue" 
 
 
