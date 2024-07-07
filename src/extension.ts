@@ -1,45 +1,47 @@
 import * as vscode from 'vscode';
-import { muadzinRegisterButton } from './sidebarButton';
 import * as fs from 'fs';
 import * as path from 'path';
 import { MyServer } from './myserver';
+import { registerSimpleTreeProvider } from './sidebarButton';
 
 /**
  * @param {vscode.ExtensionContext} context
  */
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: vscode.ExtensionContext) { 
 
-	muadzinRegisterButton(context, [
-		{
-			commandName: "muadzin_openwebview",
-			method: () => { 
-				openWebView(context);
-			},
-			name: "Muadzin Setting"
-		}
-	]);
-}
-
-async function openWebView(context: vscode.ExtensionContext) {
-	const panel = vscode.window.createWebviewPanel(
-		'webViewExample',
-		'Muadzin Setting',
-		vscode.ViewColumn.One,
-		{
-			enableScripts: true,
-			
-		}
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider('muadzin-webview', new MyWebViewProvider(context))
 	);
-
-	 
-	let myserver = MyServer.instance;
-	var urladdress = myserver.createServer(context);
-
-	
-	const filePath = path.join(context.extensionPath, "resources","htmlvue", "index.html"); 
-	const htmlContent = await fs.promises.readFile(filePath,   'utf8');  
-	const finalHtml = htmlContent.replaceAll('MYSERVERADD', urladdress); 
-	panel.webview.html = finalHtml
 }
+
+class MyWebViewProvider implements vscode.WebviewViewProvider {
+	private _context: vscode.ExtensionContext;
+
+	constructor(context: vscode.ExtensionContext) {
+		this._context = context;
+	}
+
+	async resolveWebviewView(
+		webviewView: vscode.WebviewView,
+		context: vscode.WebviewViewResolveContext,
+		_token: vscode.CancellationToken
+	) {
+		webviewView.webview.options = {
+			enableScripts: true
+		};
+
+		const panel = webviewView.webview;
+
+		let myserver = MyServer.instance;
+		var urladdress = myserver.createServer(this._context);
+
+		const filePath = path.join(this._context.extensionPath, "resources", "htmlvue", "index.html");
+		const htmlContent = await fs.promises.readFile(filePath, 'utf8');
+		const finalHtml = htmlContent.replaceAll('MYSERVERADD', urladdress);
+		panel.html = finalHtml;
+	}
+}
+
+
 
 export function deactivate() { }

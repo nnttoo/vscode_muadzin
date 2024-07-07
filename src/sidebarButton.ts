@@ -1,4 +1,14 @@
+/**
+ * file ini sebenarnya sudah tidak digunakan lagi dalam muadzin reminder
+ * namun masih disimpan disini untuk dokumentasi
+ * 
+ */
+
+
 import * as vscode from 'vscode';
+import { MyServer } from './myserver';
+import path from 'path';
+import * as fs from 'fs';
 
 
 export type ButtonInfo = {
@@ -22,12 +32,12 @@ class PackageDependenciesProvider implements vscode.TreeDataProvider<vscode.Tree
 
                 var btn = new vscode.TreeItem(l.name);
                 btn.command = {
-                    command : l.commandName,
-                    title : l.name,
-                    arguments : [],
-                    
+                    command: l.commandName,
+                    title: l.name,
+                    arguments: [],
+
                 }
-                
+
                 return btn;
             });
         }
@@ -37,7 +47,7 @@ class PackageDependenciesProvider implements vscode.TreeDataProvider<vscode.Tree
 
 
 
-export function muadzinRegisterButton(context: vscode.ExtensionContext, listButton: ButtonInfo[]) {
+export function registerSimpleTreeProvider(context: vscode.ExtensionContext, viewid: string, listButton: ButtonInfo[]) {
 
     ///daftarkan dulu commandnnya
     listButton.forEach((btn) => {
@@ -66,5 +76,47 @@ export function muadzinRegisterButton(context: vscode.ExtensionContext, listButt
     //       }
     //     ]
     //   }
-    vscode.window.registerTreeDataProvider('package-dependencies',   provider); 
+
+    context.subscriptions.push(
+        vscode.window.registerTreeDataProvider(viewid, provider)
+    );
+}
+
+export function registerSiderbarButton(context: vscode.ExtensionContext) {
+    registerSimpleTreeProvider(
+        context,
+        "muadzin-button",
+        [
+            {
+                commandName: "muadzin_openwebview",
+                method: () => {
+                    openWebView(context);
+                },
+                name: "Muadzin Setting"
+            }
+        ]
+    );
+}
+
+async function openWebView(context: vscode.ExtensionContext) {
+	const panel = vscode.window.createWebviewPanel(
+		'webViewExample',
+		'Muadzin Setting',
+		vscode.ViewColumn.One,
+		{
+			enableScripts: true,
+
+		}
+	);
+
+
+	let myserver = MyServer.instance;
+	var urladdress = myserver.createServer(context);
+
+
+	const filePath = path.join(context.extensionPath, "resources", "htmlvue", "index.html");
+	const htmlContent = await fs.promises.readFile(filePath, 'utf8');
+	const finalHtml = htmlContent.replaceAll('MYSERVERADD', urladdress);
+	panel.webview.html = finalHtml
+
 }

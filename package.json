@@ -32,7 +32,8 @@
     "views": {
       "muadzin-setting": [
         {
-          "id": "package-dependencies",
+          "type": "webview",
+          "id": "muadzin-webview",
           "name": "Muadzin"
         }
       ]
