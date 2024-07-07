@@ -3,6 +3,8 @@
 var dserver = window.myserveradd ;
 if(dserver.endsWith("/")){
     dserver = dserver.substring(0,dserver.length - 1);
+
+    
 }
 
 const options = {
@@ -26,4 +28,6 @@ const options = {
 }
 Vue.createApp(Vue.defineAsyncComponent(
     () => window['vue3-sfc-loader'].loadModule('/static/vue_component/mainapp.vue', options))
-).mount(document.body);
+
+    
+).mount( document.getElementById("myapp"));
