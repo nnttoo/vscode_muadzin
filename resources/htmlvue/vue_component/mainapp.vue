@@ -7,21 +7,19 @@ const data = ref<serverApi.PrayTimeData>({} as serverApi.PrayTimeData);
 const configData = ref<serverApi.ConfigData>({} as serverApi.ConfigData);
 const msgLoading = ref<string>("");
 
- 
-
-onMounted(() => {
-    const getPrayTime = async () => {
+const getPrayTime = async () => {
         var praytime = await serverApi.getPrayTimes();
         if (praytime == null) return;
         data.value = praytime;
     }
 
-    const getConfigData = async () => {
-        let result = await serverApi.getSetting();
-        if (result == null) return;
-        configData.value = result;
-    }
+const getConfigData = async () => {
+    let result = await serverApi.getSetting();
+    if (result == null) return;
+    configData.value = result;
+}
 
+onMounted(() => { 
     getPrayTime();
     getConfigData();
 
@@ -46,12 +44,9 @@ function getNumberFromVal(e: Event) {
 
 const saveConfig = async ()=>{
     msgLoading.value = "save to config";
-
-
     let cdata = toRaw(configData.value);
-
-    await serverApi.saveConfig(cdata);
-
+    await serverApi.saveSetting(cdata);
+    getPrayTime();
     msgLoading.value = "";
 
 }

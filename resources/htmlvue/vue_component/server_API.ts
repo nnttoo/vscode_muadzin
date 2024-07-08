@@ -67,7 +67,7 @@ export async function getSetting() : Promise<ConfigData> {
     return null;
 }
 
-export async function saveConfig(configData : ConfigData) {
+export async function saveSetting(configData : ConfigData) {
     
     try {
         
