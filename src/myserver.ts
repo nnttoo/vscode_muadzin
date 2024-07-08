@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as PrayTimes from "./PrayTimes.js"
+import * as PrayTimesTs from "./PrayTimeTs"
  
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
@@ -96,7 +96,7 @@ export class MyServer {
         app.get("/gettimes", (r, s) => { 
 
             let cursetting = settingSaver.getSetting();  
-            let prayTime = PrayTimes.getTimes(new Date, cursetting.lat, cursetting.lng) 
+            let prayTime = PrayTimesTs.prayTime.getPrayTime(new Date, cursetting.lat, cursetting.lng) 
             s.setHeader('Content-Type', 'text/plain');
             s.send(JSON.stringify(prayTime));
  
