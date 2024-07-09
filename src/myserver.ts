@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as PrayTimesTs from "./PrayTimeTs"
+import * as PrayTimesTs from "../resources/htmlvue/tslib/PrayTimeTs"
  
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
@@ -89,7 +89,7 @@ export class MyServer {
 
             console.log();
 
-            s.send("haloooo");
+            s.send("done");
 
         })
 
@@ -102,8 +102,7 @@ export class MyServer {
             s.setHeader('Content-Type', 'text/plain');
             s.send(JSON.stringify(prayTime.ptimeData));
  
-        });
-
+        }); 
        
 
         this.server = app.listen(0)

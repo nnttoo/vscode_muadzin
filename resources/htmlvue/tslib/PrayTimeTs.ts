@@ -1,4 +1,4 @@
-import * as PrayTimes from "./PrayTimes.js" 
+import * as PrayTimes from "./PrayTimes.js"
 
 export type PrayTimeData = {
     imsak: string,
@@ -12,7 +12,15 @@ export type PrayTimeData = {
     midnight: string,
 }
 
-export function timeSpan(date1 : Date, date2 : Date) {
+type SpanTime = {
+    days: Number,
+    hours: Number,
+    minutes: Number, 
+    seconds: Number,
+
+}
+
+export function timeSpan(date1: Date, date2: Date) : SpanTime {
     // Menghitung selisih waktu dalam milidetik
     let differenceInMilliseconds = date2.getTime() - date1.getTime();
 
@@ -31,7 +39,7 @@ export function timeSpan(date1 : Date, date2 : Date) {
     };
 }
 
-function  strClockToDate(clockstr: string) {
+function strClockToDate(clockstr: string) {
     let h = 0;
     let m = 0;
 
@@ -54,7 +62,7 @@ class PrayTimeNumberData {
         this.ptimeData = p;
     }
 
-   
+
     get imsakDate() {
         return strClockToDate(this.ptimeData.imsak);
     }
@@ -89,6 +97,25 @@ class PrayTimeNumberData {
     get midnightDate() {
 
         return strClockToDate(this.ptimeData.midnight);
+    }
+
+    getNextPrayTime() {
+        let listName = [
+            "imsak",
+            "fajr",
+            "sunrise",
+            "dhuhr",
+            "asr",
+            "sunset",
+            "maghrib",
+            "isha"];
+
+        let result: { name: string, date: Date, span : SpanTime } | null = null;
+
+        for(let key of listName){
+
+        } 
+
     }
 }
 
