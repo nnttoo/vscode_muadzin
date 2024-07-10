@@ -4,7 +4,8 @@ import * as PrayTimesTs from "../resources/htmlvue/tslib/PrayTimeTs"
  
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
-import { ConfigData, SettingSaver } from './settingsaver.js';
+import {  SettingSaver } from './settingsaver.js';
+import {ConfigData} from "../resources/htmlvue/tslib/PrayTimeData"
 
  
 async function readBody(req: express.Request) {

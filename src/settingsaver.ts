@@ -1,9 +1,7 @@
 import * as vscode from 'vscode';
 
-export type ConfigData = {
-    lat: number,
-    lng: number,
-}
+import {ConfigData} from "../resources/htmlvue/tslib/PrayTimeData"
+
 
 export class SettingSaver {
     context: vscode.ExtensionContext | null = null;

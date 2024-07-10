@@ -9,3 +9,8 @@ export type PrayTimeData = {
     isha: string,
     midnight: string,
 }
+
+export type ConfigData = {
+    lat: number,
+    lng: number,
+}
