@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted, onUpdated, ref, toRaw } from "vue"
 import * as serverApi from "./server_API.ts"
+import   {PrayTimeData } from "../tslib/PrayTimeData.ts"
 import Second from "./second.vue"
 
-const data = ref<serverApi.PrayTimeData>({} as serverApi.PrayTimeData);
+const data = ref< PrayTimeData>({} as  PrayTimeData);
 const configData = ref<serverApi.ConfigData>({} as serverApi.ConfigData);
 const msgLoading = ref<string>("");
 

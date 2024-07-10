@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as PrayTimesTs from "./tslib/PrayTimeTs"
+import * as PrayTimesTs from "../resources/htmlvue/tslib/PrayTimeTs"
  
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
