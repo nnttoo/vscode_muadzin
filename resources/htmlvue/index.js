@@ -12,7 +12,15 @@ const options = {
     /** @param {string} fname **/
     getFile: async (fname) => {
 
+        if(
+            !fname.endsWith(".js") &&
+            !fname.endsWith(".vue") &&
+            !fname.endsWith(".ts") 
 
+            
+        ) {
+            fname = fname + ".ts";
+        }
       
         var f = await fetch(dserver + fname);
         var txt = await f.text();
