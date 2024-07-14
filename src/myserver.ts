@@ -30,22 +30,9 @@ export class MyServer {
     /**
      * cunstructor dibuat private agar instance class hanya bisa diakses melalui instance (Singleton)
      */
-    private constructor(){}
+    public constructor(){} 
 
-    private static _instance? : MyServer;
-
-    /**
-     * Singleton MyServer class
-     */
-    public static get instance() : MyServer {
-        if(this._instance == null){
-            this._instance = new MyServer;
-        }
-
-        return this._instance;
-    }
-
-    private serverAdd? : string;
+    private serverAdd : string | null = null;
 
     public createServer(context: vscode.ExtensionContext) {
 
@@ -122,6 +109,7 @@ export class MyServer {
 
     public closeServer(){
         if(this.server != null){
+            this.serverAdd = null;
             this.server.close();
         }
     } 

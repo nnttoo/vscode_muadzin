@@ -110,13 +110,13 @@ async function openWebView(context: vscode.ExtensionContext) {
 	);
 
 
-	let myserver = MyServer.instance;
-	var urladdress = myserver.createServer(context);
+	// let myserver = MyServer.instance;
+	// var urladdress = myserver.createServer(context);
 
 
-	const filePath = path.join(context.extensionPath, "resources", "htmlvue", "index.html");
-	const htmlContent = await fs.promises.readFile(filePath, 'utf8');
-	const finalHtml = htmlContent.replaceAll('MYSERVERADD', urladdress);
-	panel.webview.html = finalHtml
+	// const filePath = path.join(context.extensionPath, "resources", "htmlvue", "index.html");
+	// const htmlContent = await fs.promises.readFile(filePath, 'utf8');
+	// const finalHtml = htmlContent.replaceAll('MYSERVERADD', urladdress);
+	// panel.webview.html = finalHtml
 
 }
