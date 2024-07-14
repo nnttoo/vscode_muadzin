@@ -26,23 +26,32 @@ export class SettingSaver {
 
         let jsonStr = JSON.stringify(cdata);
         this.context?.globalState.update("muadzin.config.jsonstr", jsonStr);
+        this._currentConfigData = null;
     }
+
+    private _currentConfigData : ConfigData | null = null;
 
 
     getSetting(): ConfigData {
 
-        let cdata = {} as ConfigData;
-        try {
-            let text = this.context?.globalState.get("muadzin.config.jsonstr") as string;
-            let confobj = JSON.parse(text) as ConfigData;
-            if (confobj != null) {
-                cdata = confobj;
+        if(this._currentConfigData == null){
+            let cdata = {} as ConfigData;
+            try {
+                let text = this.context?.globalState.get("muadzin.config.jsonstr") as string;
+                let confobj = JSON.parse(text) as ConfigData;
+                if (confobj != null) {
+                    cdata = confobj;
+                }
+            } catch (error) {
+    
             }
-        } catch (error) {
 
+            this._currentConfigData = cdata;
         }
 
-        return cdata;
+       
+
+        return this._currentConfigData;
 
     }
 
