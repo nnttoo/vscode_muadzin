@@ -11,7 +11,7 @@ import { MuadzinContext } from './muadzin_ctx';
  */
 export function activate(context: vscode.ExtensionContext) { 
 
-	var muadzinCtx = new MuadzinContext();
+	var muadzinCtx = MuadzinContext.instance;
 	muadzinCtx.onActivate(context);
 
 	context.subscriptions.push(
@@ -37,7 +37,8 @@ class MyWebViewProvider implements vscode.WebviewViewProvider {
 
 		const panel = webviewView.webview;
 
-		let myserver = MyServer.instance;
+		let ctx = MuadzinContext.instance; 
+		let myserver = ctx.myserver;
 		var urladdress = myserver.createServer(this._context);
 
 		const filePath = path.join(this._context.extensionPath, "resources", "htmlvue", "index.html");
@@ -51,5 +52,5 @@ class MyWebViewProvider implements vscode.WebviewViewProvider {
 
 export function deactivate() {
 
-	MyServer.instance.closeServer();
+	MuadzinContext.instance.onDeactivate();
  }
