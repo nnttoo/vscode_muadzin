@@ -45,7 +45,13 @@ export class MyServer {
         return this._instance;
     }
 
+    private serverAdd? : string;
+
     public createServer(context: vscode.ExtensionContext) {
+
+        if(this.serverAdd != null){
+            return this.serverAdd;
+        }
  
         let settingSaver = new SettingSaver(context); 
 
@@ -109,9 +115,8 @@ export class MyServer {
         this.server = app.listen(0)
         var actualPort = (this.server as any)?.address().port;
 
-        var actAdds =  `http://localhost:${actualPort}`;
-        console.log(actAdds);
-        return actAdds;
+        this.serverAdd =  `http://localhost:${actualPort}`; 
+        return this.serverAdd;
     }
 
 

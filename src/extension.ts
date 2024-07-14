@@ -4,14 +4,15 @@ import * as path from 'path';
 import { MyServer } from './myserver';
 import { registerSimpleTreeProvider } from './sidebarButton';
 import { MuadzinHeartBeat } from './muadzin_heartbeat';
+import { MuadzinContext } from './muadzin_ctx';
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 export function activate(context: vscode.ExtensionContext) { 
 
-	var hbeat = new MuadzinHeartBeat();
-	hbeat.startTimer();
+	var muadzinCtx = new MuadzinContext();
+	muadzinCtx.onActivate(context);
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider('muadzin-webview', new MyWebViewProvider(context))
