@@ -5,11 +5,7 @@ import {ConfigData} from "../resources/htmlvue/tslib/PrayTimeData"
 
 export class SettingSaver {
     context: vscode.ExtensionContext | null = null;
-
-    public constructor(context: vscode.ExtensionContext) {
-        this.context = context;
-
-    }
+ 
 
     getNumber(key: string) {
         let vl = this.context?.globalState.get("muadzin.config." + key);

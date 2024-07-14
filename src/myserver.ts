@@ -1,13 +1,14 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as PrayTimesTs from "../resources/htmlvue/tslib/PrayTimeTs"
- 
+
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
-import {  SettingSaver } from './settingsaver.js';
-import {ConfigData} from "../resources/htmlvue/tslib/PrayTimeData"
+import { SettingSaver } from './settingsaver.js';
+import { ConfigData } from "../resources/htmlvue/tslib/PrayTimeData"
+import type { MuadzinContext } from './muadzin_ctx';
 
- 
+
 async function readBody(req: express.Request) {
     let bodystr: any = await new Promise((r, x) => {
         let fileData: Buffer[] = [];
@@ -26,51 +27,53 @@ async function readBody(req: express.Request) {
 
 export class MyServer {
     private server: Server | null = null;
+    private muadzin_ctx: MuadzinContext
 
-    /**
-     * cunstructor dibuat private agar instance class hanya bisa diakses melalui instance (Singleton)
-     */
-    public constructor(){} 
 
-    private serverAdd : string | null = null;
 
-    public createServer(context: vscode.ExtensionContext) {
+    public constructor(muadinctx: MuadzinContext) {
+        this.muadzin_ctx = muadinctx;
+    }
 
-        if(this.serverAdd != null){
+    private serverAdd: string | null = null;
+
+    public createServer() {
+
+        if (this.serverAdd != null) {
             return this.serverAdd;
         }
- 
-        let settingSaver = new SettingSaver(context); 
+
+        let settingSaver = this.muadzin_ctx.settingSaver; 
 
 
         const app = express();
 
         app.use((req, res, next) => {
-            res.setHeader('Access-Control-Allow-Origin', '*');  
-            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');   
-            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');  
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
             if (req.method === 'OPTIONS') {
-                res.sendStatus(200);  
+                res.sendStatus(200);
             } else {
-                next();  
+                next();
             }
         });
 
 
-        app.use("/static", express.static(path.join(context.extensionPath,"resources", "htmlvue")));
-        app.get("/getconfig",(r,s)=>{
-            let cursetting = settingSaver.getSetting();  
+        app.use("/static", express.static(path.join(this.muadzin_ctx.getExtensionPath(), "resources", "htmlvue")));
+        app.get("/getconfig", (r, s) => {
+            let cursetting = settingSaver.getSetting();
             s.setHeader('Content-Type', 'text/plain');
             s.send(JSON.stringify(cursetting));
 
         });
 
-        app.post("/saveconfig", async (r,s)=>{
+        app.post("/saveconfig", async (r, s) => {
 
-            let body =  await readBody(r);
+            let body = await readBody(r);
 
             try {
-                
+
                 let bodyStr = body.toString();
                 let obj = JSON.parse(bodyStr);
 
@@ -78,7 +81,7 @@ export class MyServer {
 
 
             } catch (error) {
-                
+
             }
 
             console.log();
@@ -87,32 +90,32 @@ export class MyServer {
 
         })
 
-        app.get("/gettimes", (r, s) => { 
+        app.get("/gettimes", (r, s) => {
 
-            let cursetting = settingSaver.getSetting();  
-            let prayTime = PrayTimesTs.prayTime.getPrayTime(new Date, cursetting.lat, cursetting.lng)  
-            
+            let cursetting = settingSaver.getSetting();
+            let prayTime = PrayTimesTs.prayTime.getPrayTime(new Date, cursetting.lat, cursetting.lng)
+
 
             s.setHeader('Content-Type', 'text/plain');
             s.send(JSON.stringify(prayTime.ptimeData));
- 
-        }); 
-       
+
+        });
+
 
         this.server = app.listen(0)
         var actualPort = (this.server as any)?.address().port;
 
-        this.serverAdd =  `http://localhost:${actualPort}`; 
+        this.serverAdd = `http://localhost:${actualPort}`;
         return this.serverAdd;
     }
 
 
-    public closeServer(){
-        if(this.server != null){
+    public closeServer() {
+        if (this.server != null) {
             this.serverAdd = null;
             this.server.close();
         }
-    } 
+    }
 
 
 

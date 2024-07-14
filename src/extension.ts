@@ -9,22 +9,17 @@ import { MuadzinContext } from './muadzin_ctx';
 /**
  * @param {vscode.ExtensionContext} context
  */
-export function activate(context: vscode.ExtensionContext) { 
+export function activate(context: vscode.ExtensionContext) {
 
 	var muadzinCtx = MuadzinContext.instance;
 	muadzinCtx.onActivate(context);
 
 	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider('muadzin-webview', new MyWebViewProvider(context))
+		vscode.window.registerWebviewViewProvider('muadzin-webview', new MyWebViewProvider())
 	);
 }
 
 class MyWebViewProvider implements vscode.WebviewViewProvider {
-	private _context: vscode.ExtensionContext;
-
-	constructor(context: vscode.ExtensionContext) {
-		this._context = context;
-	}
 
 	async resolveWebviewView(
 		webviewView: vscode.WebviewView,
@@ -37,11 +32,10 @@ class MyWebViewProvider implements vscode.WebviewViewProvider {
 
 		const panel = webviewView.webview;
 
-		let ctx = MuadzinContext.instance; 
-		let myserver = ctx.myserver;
-		var urladdress = myserver.createServer(this._context);
+		let muadzin_context = MuadzinContext.instance;  
+		var urladdress = muadzin_context.getServerAddressAndStart();
 
-		const filePath = path.join(this._context.extensionPath, "resources", "htmlvue", "index.html");
+		const filePath = path.join(muadzin_context.getExtensionPath(), "resources", "htmlvue", "index.html");
 		const htmlContent = await fs.promises.readFile(filePath, 'utf8');
 		const finalHtml = htmlContent.replaceAll('MYSERVERADD', urladdress);
 		panel.html = finalHtml;
@@ -53,4 +47,4 @@ class MyWebViewProvider implements vscode.WebviewViewProvider {
 export function deactivate() {
 
 	MuadzinContext.instance.onDeactivate();
- }
+}
