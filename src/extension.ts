@@ -3,11 +3,15 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { MyServer } from './myserver';
 import { registerSimpleTreeProvider } from './sidebarButton';
+import { ExtHeartBeat } from './extenstion_heartbeat';
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 export function activate(context: vscode.ExtensionContext) { 
+
+	var hbeat = new ExtHeartBeat();
+	hbeat.startTimer();
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider('muadzin-webview', new MyWebViewProvider(context))
