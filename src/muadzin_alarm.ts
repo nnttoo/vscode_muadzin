@@ -1,5 +1,4 @@
 
-import * as PrayTimesTs from "../resources/htmlvue/tslib/PrayTimeTs"
 import type { MuadzinContext } from "./muadzin_ctx";
 function sleep(milis: number) {
     return new Promise((r, x) => {
@@ -15,8 +14,10 @@ export class PrayTimeAlarm {
         this.muadzin_ctx = ctxIn;
     }
 
-    public run(){ 
+    public run(){  
 
+        let ptime = this.muadzin_ctx.getPrayTimeNow();
+        console.log(ptime);
 
     }
 

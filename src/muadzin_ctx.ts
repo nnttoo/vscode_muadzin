@@ -3,6 +3,7 @@ import { MyServer } from './myserver';
 import { SettingSaver } from './settingsaver';
 import { PrayTimeAlarm } from './muadzin_alarm';
 
+import * as PrayTimesTs from "../resources/htmlvue/tslib/PrayTimeTs"
 
 export class MuadzinContext {
 
@@ -46,5 +47,10 @@ export class MuadzinContext {
     public onDeactivate() {
         this.myserver.closeServer();
         this.praytimeAlarm.stopTimer();
+    }
+
+    public getPrayTimeNow(){
+        let cdata = this.settingSaver.getSetting();
+        return PrayTimesTs.prayTime.getPrayTime(new Date,cdata.lat,cdata.lng);
     }
 }
