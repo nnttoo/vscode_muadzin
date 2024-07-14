@@ -6,7 +6,7 @@ function sleep(milis: number) {
     });
 }
 export class MuadzinHeartBeat {
-    public keepRun = false;
+    private keepRun = false;
 
     public run(){
         console.log("halo");
@@ -22,6 +22,10 @@ export class MuadzinHeartBeat {
                 
             }
         }
+    }
+
+    public stopTimer(){
+        this.keepRun = false;
     }
 
 }

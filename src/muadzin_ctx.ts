@@ -1,10 +1,12 @@
 import * as vscode from 'vscode';
 import { MyServer } from './myserver';
+import { MuadzinHeartBeat } from './muadzin_heartbeat';
 
 
 export class MuadzinContext{ 
 
     public myserver : MyServer = new MyServer();
+    private heartbeat = new MuadzinHeartBeat();
 
     private constructor(){}
 
@@ -25,5 +27,6 @@ export class MuadzinContext{
 
     public onDeactivate(){
         this.myserver.closeServer();
+        this.heartbeat.stopTimer();
     }
 }
