@@ -1,9 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import * as path from 'path';
-import { MyServer } from './myserver';
-import { registerSimpleTreeProvider } from './sidebarButton';
-import { MuadzinHeartBeat } from './muadzin_heartbeat';
+import * as path from 'path'; 
 import { MuadzinContext } from './muadzin_ctx';
 
 /**

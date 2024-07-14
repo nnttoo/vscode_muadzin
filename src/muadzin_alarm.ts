@@ -1,15 +1,23 @@
 
-
+import * as PrayTimesTs from "../resources/htmlvue/tslib/PrayTimeTs"
+import type { MuadzinContext } from "./muadzin_ctx";
 function sleep(milis: number) {
     return new Promise((r, x) => {
         setTimeout(r, milis);
     });
 }
-export class MuadzinHeartBeat {
+export class PrayTimeAlarm {
+
+    private muadzin_ctx : MuadzinContext;
     private keepRun = false;
 
-    public run(){
-        console.log("halo");
+    public constructor(ctxIn : MuadzinContext){
+        this.muadzin_ctx = ctxIn;
+    }
+
+    public run(){ 
+
+
     }
 
     public async startTimer() {
