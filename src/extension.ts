@@ -3,14 +3,14 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { MyServer } from './myserver';
 import { registerSimpleTreeProvider } from './sidebarButton';
-import { ExtHeartBeat } from './extenstion_heartbeat';
+import { MuadzinHeartBeat } from './muadzin_heartbeat';
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 export function activate(context: vscode.ExtensionContext) { 
 
-	var hbeat = new ExtHeartBeat();
+	var hbeat = new MuadzinHeartBeat();
 	hbeat.startTimer();
 
 	context.subscriptions.push(

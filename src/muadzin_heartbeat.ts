@@ -5,7 +5,7 @@ function sleep(milis: number) {
         setTimeout(r, milis);
     });
 }
-export class ExtHeartBeat {
+export class MuadzinHeartBeat {
     public keepRun = false;
 
     public run(){
