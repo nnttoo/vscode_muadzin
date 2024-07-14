@@ -21,7 +21,7 @@ export class MuadzinContext{
 
 
     public onActivate(context: vscode.ExtensionContext){
-
+        this.heartbeat.startTimer();
     }
 
 
