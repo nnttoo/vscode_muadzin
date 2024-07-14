@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onMounted, onUpdated, ref, toRaw } from "vue"
 import * as serverApi from "./server_API.ts"
-import   {PrayTimeData } from "../tslib/PrayTimeData.ts"
+import  type {ConfigData, PrayTimeData } from "../tslib/PrayTimeData.ts"
 import Second from "./second.vue"
 
 const data = ref< PrayTimeData>({} as  PrayTimeData);
-const configData = ref<serverApi.ConfigData>({} as serverApi.ConfigData);
+const configData = ref<ConfigData>({} as  ConfigData);
 const msgLoading = ref<string>("");
 
 const getPrayTime = async () => {
@@ -63,6 +63,9 @@ const saveConfig = async ()=>{
             <input :value="configData?.lat" @input="configData.lat = getNumberFromVal($event)" />
             <div>Longitude : </div>
             <input :value="configData?.lng" @input="configData.lng = getNumberFromVal($event)" />
+
+            <div>Alarm Lead Time (Minutes)</div>
+            <input :value="configData?.alarmLeadTimeMinute" @input="configData.alarmLeadTimeMinute = getNumberFromVal($event)" />
 
             <div>
 

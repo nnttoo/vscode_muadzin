@@ -1,10 +1,5 @@
 
-import   {PrayTimeData} from "../tslib/PrayTimeData.ts"
-
-export type ConfigData = {
-    lat : number,
-    lng : number,
-}
+import type  {ConfigData, PrayTimeData} from "../tslib/PrayTimeData.ts" 
 
 
 function getFullUrl(relative:string){

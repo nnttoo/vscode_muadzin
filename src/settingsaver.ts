@@ -49,6 +49,9 @@ export class SettingSaver {
             this._currentConfigData = cdata;
         }
 
+        if(this._currentConfigData.alarmLeadTimeMinute == null){
+            this._currentConfigData.alarmLeadTimeMinute = 5;
+        }
        
 
         return this._currentConfigData;

@@ -41,7 +41,7 @@ export class MuadzinContext {
     public getServerAddressAndStart(){
         return this.myserver.createServer();
     }
-
+ 
     public onDeactivate() {
         this.myserver.closeServer();
         this.heartbeat.stopTimer();

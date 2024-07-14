@@ -13,4 +13,5 @@ export type PrayTimeData = {
 export type ConfigData = {
     lat: number,
     lng: number,
+    alarmLeadTimeMinute : number,
 }
