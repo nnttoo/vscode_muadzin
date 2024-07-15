@@ -1,31 +1,13 @@
 import * as PrayTimes from "./PrayTimes.js"
-import {PrayTimeData} from "./PrayTimeData"
+import {PrayTimeData, PrayTimeDate} from "./PrayTimeData"
  
-type SpanTime = {
-    days: Number,
-    hours: Number,
-    minutes: Number, 
-    seconds: Number,
+ 
 
-}
-
-export function timeSpan(date1: Date, date2: Date) : SpanTime {
+export function timeSpan(date1: Date, date2: Date) : number {
     // Menghitung selisih waktu dalam milidetik
-    let differenceInMilliseconds = date2.getTime() - date1.getTime();
-
-    // Menghitung selisih dalam berbagai unit waktu
-    let seconds = Math.floor((differenceInMilliseconds / 1000) % 60);
-    let minutes = Math.floor((differenceInMilliseconds / (1000 * 60)) % 60);
-    let hours = Math.floor((differenceInMilliseconds / (1000 * 60 * 60)) % 24);
-    let days = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
-
+    let differenceInMilliseconds = date2.getTime() - date1.getTime(); 
     // Mengembalikan objek dengan hasil selisih waktu
-    return {
-        days: days,
-        hours: hours,
-        minutes: minutes,
-        seconds: seconds
-    };
+    return differenceInMilliseconds;
 }
 
 function strClockToDate(clockstr: string) {
@@ -44,49 +26,35 @@ function strClockToDate(clockstr: string) {
     return d;
 }
 
+
+
 class PrayTimeNumberData {
     public ptimeData!: PrayTimeData;
+    private _listpraytimes : PrayTimeDate[] | null = null;
+
+    public get listPrayTimeDate() : PrayTimeDate[]{
+        if(this._listpraytimes == null){
+            this._listpraytimes = [];
+
+            for(let key of Object.keys( this.ptimeData)){   
+                let str = (this.ptimeData as any)[key] as string;
+                let dpray = strClockToDate(str);
+
+                this._listpraytimes.push({
+                    date : dpray,
+                    name : key,
+                })
+
+            }
+        }
+
+
+        return this._listpraytimes;
+    }
 
     constructor(p: PrayTimeData) {
         this.ptimeData = p;
-    }
-
-
-    get imsakDate() {
-        return strClockToDate(this.ptimeData.imsak);
-    }
-    get fajrDate() {
-
-        return strClockToDate(this.ptimeData.fajr);
-    }
-    get sunriseDate() {
-
-        return strClockToDate(this.ptimeData.sunrise);
-    }
-    get dhuhrDate() {
-
-        return strClockToDate(this.ptimeData.dhuhr);
-    }
-    get asrDate() {
-
-        return strClockToDate(this.ptimeData.asr);
-    }
-    get sunsetDate() {
-
-        return strClockToDate(this.ptimeData.sunset);
-    }
-    get maghribDate() {
-
-        return strClockToDate(this.ptimeData.maghrib);
-    }
-    get ishaDate() {
-
-        return strClockToDate(this.ptimeData.isha);
-    }
-    get midnightDate() {
-
-        return strClockToDate(this.ptimeData.midnight);
-    }
+    } 
 
     getNextPrayTime() {
         let listName = [
@@ -97,13 +65,40 @@ class PrayTimeNumberData {
             "asr",
             "sunset",
             "maghrib",
-            "isha"];
+            "isha"]; 
 
-        let result: { name: string, date: Date, span : SpanTime } | null = null;
+        let prayDateSpan : {
+            span : number,
+            pdate : PrayTimeDate | null,
+        } = {
+            span : -1,
+            pdate : null,
+        }
+        let now = new Date();
+         
 
-        for(let key of listName){
+        for(let pdate of this.listPrayTimeDate){
 
+            if(listName.indexOf(pdate.name) < 0){
+                continue;
+            }
+
+           
+
+            let tspan = timeSpan(pdate.date,now);
+            if(prayDateSpan.span == -1 || 
+                prayDateSpan.pdate == null || 
+                prayDateSpan.span > tspan){
+
+                prayDateSpan = {
+                    span : tspan,
+                    pdate : pdate,
+                }
+            }
+             
         } 
+ 
+        return prayDateSpan;
 
     }
 }

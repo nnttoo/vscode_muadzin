@@ -1,6 +1,5 @@
-import * as vscode from 'vscode';
-import * as path from 'path';
-import * as PrayTimesTs from "../resources/htmlvue/tslib/PrayTimeTs"
+ 
+import * as path from 'path'; 
 
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
@@ -91,9 +90,8 @@ export class MyServer {
         })
 
         app.get("/gettimes", (r, s) => {
-
-            let cursetting = settingSaver.getSetting();
-            let prayTime = PrayTimesTs.prayTime.getPrayTime(new Date, cursetting.lat, cursetting.lng)
+ 
+            let prayTime = this.muadzin_ctx.getPrayTimeNow();
 
 
             s.setHeader('Content-Type', 'text/plain');

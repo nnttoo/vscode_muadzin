@@ -10,6 +10,11 @@ export type PrayTimeData = {
     midnight: string,
 }
 
+export type PrayTimeDate = {
+    name : string,
+    date : Date
+}
+
 export type ConfigData = {
     lat: number,
     lng: number,

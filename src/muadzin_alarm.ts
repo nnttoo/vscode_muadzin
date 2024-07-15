@@ -15,13 +15,17 @@ export class PrayTimeAlarm {
     }
 
     public run(){  
-
-        let ptime = this.muadzin_ctx.getPrayTimeNow();
-        console.log(ptime);
+ 
 
     }
 
     public async startTimer() {
+
+
+        let ptime = this.muadzin_ctx.getPrayTimeNow();
+        let ptimeSpan =  ptime.getNextPrayTime();
+        console.log(ptimeSpan);
+
         this.keepRun = true;
         while(this.keepRun){
             await sleep(1000);
