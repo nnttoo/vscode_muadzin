@@ -36,6 +36,13 @@
           "id": "muadzin-webview",
           "name": "Muadzin"
         }
+      ],
+      "explorer": [
+        {
+          "type": "webview",
+          "id": "muadzin-webview-adzan",
+          "name": "Muadzin Adzan" 
+        }
       ]
     }
   },

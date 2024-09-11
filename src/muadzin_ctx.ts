@@ -40,7 +40,7 @@ export class MuadzinContext {
         this.praytimeAlarm.startTimer();
     }
 
-    public getServerAddressAndStart(){
+    public getServerAddressAndStart(){ 
         return this.myserver.createServer();
     }
  

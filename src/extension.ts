@@ -13,6 +13,9 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider('muadzin-webview', new MyWebViewProvider())
 	);
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider('muadzin-webview-adzan', new MyWebViewProvider())
+	);
 }
 
 class MyWebViewProvider implements vscode.WebviewViewProvider {
