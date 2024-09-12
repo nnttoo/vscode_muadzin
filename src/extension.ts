@@ -33,7 +33,8 @@ class MyWebViewProvider implements vscode.WebviewViewProvider {
  
 		var urladdress = MuadzinContext.instance.getServerAddressAndStart();
 
-		const filePath = path.join(MuadzinContext.instance.getExtensionPath(), "resources", "htmlvue", "index.html");
+		console.log(urladdress);
+		const filePath = path.join(MuadzinContext.instance.getExtensionPath(), "resources", "htmlvue", "iframe.html");
 		const htmlContent = await fs.promises.readFile(filePath, 'utf8');
 		const finalHtml = htmlContent.replaceAll('MYSERVERADD', urladdress);
 		panel.html = finalHtml;

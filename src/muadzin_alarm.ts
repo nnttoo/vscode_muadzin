@@ -20,7 +20,13 @@ export class PrayTimeAlarm {
     // menampilkan webview
     private openWebview(){
         console.log("harusnya kebuka iniiiiii");
-        vscode.commands.executeCommand('workbench.view.extension.muadzin-setting');
+        var panel = vscode.window.createWebviewPanel(
+            'myFloatingView', 
+            'My Floating View', 
+            vscode.ViewColumn.Active, 
+            {}
+        );
+        panel.webview.html = `<html><body><h1>Hello from Floating View</h1></body></html>`;
     }
 
     public async run(){  

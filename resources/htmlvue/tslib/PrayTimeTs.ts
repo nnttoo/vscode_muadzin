@@ -94,7 +94,7 @@ class PrayTimeNumberData {
         this.ptimeData = { 
             asr :     '15:19',
             dhuhr :   '12:09',
-            fajr :    '04:56',
+            fajr :    '10:12',
             imsak :   '04:46',
             isha :    '00:44',
             maghrib :   '18:12',

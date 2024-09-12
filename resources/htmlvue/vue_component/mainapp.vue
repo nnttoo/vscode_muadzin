@@ -88,6 +88,10 @@ const saveConfig = async ()=>{
     </div>
 </template>
 <style scoped>
+.mainframe{
+    color: #fff;
+    font-family: "Consolas, 'Courier New', monospace";
+}
 .mainframe h1 {
     color: red
 }

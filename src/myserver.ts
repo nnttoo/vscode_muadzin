@@ -1,11 +1,12 @@
  
 import * as path from 'path'; 
 
+import * as fs from 'fs';  
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
 import { SettingSaver } from './settingsaver.js';
 import { ConfigData } from "../resources/htmlvue/tslib/PrayTimeData"
-import type { MuadzinContext } from './muadzin_ctx';
+import   { MuadzinContext } from './muadzin_ctx';
 
 
 async function readBody(req: express.Request) {
@@ -99,6 +100,13 @@ export class MyServer {
 
         });
 
+        app.get("/",async (r,s)=>{
+            s.setHeader('Content-Type', 'text/html');
+            const filePath = path.join(MuadzinContext.instance.getExtensionPath(), "resources", "htmlvue", "index.html");
+		    const htmlContent = await fs.promises.readFile(filePath, 'utf8');
+		
+            s.send(htmlContent);
+        });
 
         this.server = app.listen(0)
         var actualPort = (this.server as any)?.address().port;
