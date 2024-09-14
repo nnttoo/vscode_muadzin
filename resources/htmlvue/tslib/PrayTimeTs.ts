@@ -92,7 +92,7 @@ class PrayTimeNumberData {
     
         // pakai dumy data dulu buat ngetest
         this.ptimeData = { 
-            asr :     '15:19',
+            asr :     '16:08',
             dhuhr :   '12:09',
             fajr :    '10:12',
             imsak :   '04:46',

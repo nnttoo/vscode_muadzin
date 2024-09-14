@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path'; 
 import { MuadzinContext } from './muadzin_ctx';
+import { HtmlGetter } from './html_getter';
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -31,13 +32,8 @@ class MyWebViewProvider implements vscode.WebviewViewProvider {
 
 		const panel = webviewView.webview;
  
-		var urladdress = MuadzinContext.instance.getServerAddressAndStart();
-
-		console.log(urladdress);
-		const filePath = path.join(MuadzinContext.instance.getExtensionPath(), "resources", "htmlvue", "iframe.html");
-		const htmlContent = await fs.promises.readFile(filePath, 'utf8');
-		const finalHtml = htmlContent.replaceAll('MYSERVERADD', urladdress);
-		panel.html = finalHtml;
+		var urladdress = MuadzinContext.instance.getServerAddressAndStart(); 
+		panel.html = await HtmlGetter.getInstance().getIframeHtml(urladdress);
 	}
 }
 
