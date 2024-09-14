@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { onMounted, onUpdated, ref, toRaw } from "vue"
-import * as serverApi from "./server_API.ts"
+import * as serverApi from "./server_API.ts" 
 import  type {ConfigData, PrayTimeData } from "../tslib/PrayTimeData.ts"
 import Second from "./second.vue"
 
-const data = ref< PrayTimeData>({} as  PrayTimeData);
+const data = ref<PrayTimeData>({} as  PrayTimeData);
 const configData = ref<ConfigData>({} as  ConfigData);
 const msgLoading = ref<string>("");
 
 const getPrayTime = async () => {
         var praytime = await serverApi.getPrayTimes();
         if (praytime == null) return;
+ 
         data.value = praytime;
     }
 

@@ -7,6 +7,8 @@ import { Server } from 'http';
 import { SettingSaver } from './settingsaver.js';
 import { ConfigData } from "../resources/htmlvue/tslib/PrayTimeData"
 import   { MuadzinContext } from './muadzin_ctx';
+import { HtmlGetter } from './html_getter.js'; 
+import { Mp3Player} from "../resources/htmlvue/tslib/playaudio.js"
 
 
 async function readBody(req: express.Request) {
@@ -84,7 +86,6 @@ export class MyServer {
 
             }
 
-            console.log();
 
             s.send("done");
 
@@ -101,11 +102,33 @@ export class MyServer {
         });
 
         app.get("/",async (r,s)=>{
-            s.setHeader('Content-Type', 'text/html');
-            const filePath = path.join(MuadzinContext.instance.getExtensionPath(), "resources", "htmlvue", "index.html");
-		    const htmlContent = await fs.promises.readFile(filePath, 'utf8');
+            s.setHeader('Content-Type', 'text/html'); 
+		    const htmlContent = await HtmlGetter.getInstance().getAnyHtml("index.html");
 		
             s.send(htmlContent);
+        });
+
+        app.get("/adzan",async (r,s)=>{
+            var title = r.query.title;
+
+            
+            var audioFile = path.join(MuadzinContext.instance.getExtensionPath(), "resources", "htmlvue", "assets","myadzan.mp3"); 
+            Mp3Player.playAutoStop(audioFile);
+
+            s.setHeader('Content-Type', 'text/html'); 
+		    let htmlContent = await HtmlGetter.getInstance().getAnyHtml("adzan.html");
+		
+            if(title != null && title != ""){
+                htmlContent =   htmlContent.replaceAll("AdzanName",title +"");
+            }
+
+            s.send(htmlContent);
+        });
+
+        app.get("/adzan_pump",(r,s)=>{
+            Mp3Player.playAutoStopPump();
+            console.log("pump send");
+            s.send("pump");
         });
 
         this.server = app.listen(0)

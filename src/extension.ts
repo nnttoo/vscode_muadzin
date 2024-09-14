@@ -32,7 +32,7 @@ class MyWebViewProvider implements vscode.WebviewViewProvider {
 
 		const panel = webviewView.webview;
  
-		var urladdress = MuadzinContext.instance.getServerAddressAndStart(); 
+		var urladdress =MuadzinContext.instance.urlAddress ; 
 		panel.html = await HtmlGetter.getInstance().getIframeHtml(urladdress);
 	}
 }

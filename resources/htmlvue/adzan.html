@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head> 
+    <title>AdzanName</title>
+    <style>
+        img{
+            width: 200px;
+        }
+        h1{
+            color : #fff;
+        }
+    </style>
+</head>
+
+<body> 
+    <h1>AdzanName</h1>
+    <img src="/static/assets/adzan.jpg"/> 
+
+
+    <script> 
+    
+        async function  pump(){
+            var r =  await fetch("/adzan_pump");
+            await r.text();
+        }
+
+        function sleep(time){
+            return new Promise((r,x)=>{
+                setTimeout(r,time);
+            })
+        }
+        async function pumloop(){ 
+            while(true){
+                await sleep(1000);
+                await pump();
+            }
+        }
+
+        pumloop();
+    </script>
+ 
+</body> 
+
+</html>

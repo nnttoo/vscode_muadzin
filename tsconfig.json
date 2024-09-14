@@ -1,5 +1,6 @@
 {
-	"compilerOptions": {
+	"compilerOptions": { 
+		"esModuleInterop": true,
 		"allowJs": true,
 		"module": "Node16",
 		"target": "ES2022",

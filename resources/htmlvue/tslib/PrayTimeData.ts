@@ -16,7 +16,22 @@ export type PrayTimeDate = {
 }
 
 export type ConfigData = {
+    /**
+     * latitude
+     */
     lat: number,
+    /**
+     * longitude
+     */
     lng: number,
+
+    /**
+     * alarmLeadTimeMinute
+     * adalah waktu untuk mengurani waktu sholat. 
+     * Misalkan kita ingin membunyikan alamarm 10 menit sebelum waktu sholat
+     * tiba, maka kita bisa menggunakan alarmLeadTimeMinute 10 menit 
+     * 
+     */
     alarmLeadTimeMinute : number,
 }
+

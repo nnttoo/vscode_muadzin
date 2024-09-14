@@ -1,37 +1,8 @@
 import * as PrayTimes from "./PrayTimes.js"
-import { PrayTimeData, PrayTimeDate } from "./PrayTimeData"
+import type { PrayTimeData, PrayTimeDate } from "./PrayTimeData.ts"
+import {SpanTime} from "./SpanTime"
 
-type SpanTime = {
-    differenceInMilliseconds: number,
-    days: number,
-    hours: number,
-    minutes: number,
-    seconds: number,
-
-}
-
-export function timeSpan(date1: Date, date2: Date): SpanTime {
-    // Menghitung selisih waktu dalam milidetik
-    let differenceInMilliseconds = date2.getTime() - date1.getTime();
-    // Mengembalikan objek dengan hasil selisih waktu 
-
-    // Menghitung selisih dalam berbagai unit waktu
-    let seconds = Math.floor((differenceInMilliseconds / 1000) % 60);
-    let minutes = Math.floor((differenceInMilliseconds / (1000 * 60)) % 60);
-    let hours = Math.floor((differenceInMilliseconds / (1000 * 60 * 60)) % 24);
-    let days = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
-    
-
-    // Mengembalikan objek dengan hasil selisih waktu
-    return {
-        differenceInMilliseconds,
-        days: days,
-        hours: hours,
-        minutes: minutes,
-        seconds: seconds
-    };
-}
-
+ 
 function strClockToDate(clockstr: string) {
     let h = 0;
     let m = 0;
@@ -62,7 +33,7 @@ function strClockToDate(clockstr: string) {
 
 
 
-class PrayTimeNumberData {
+export class PrayTimeNumberData {
     public ptimeData!: PrayTimeData;
     private _listpraytimes: PrayTimeDate[] | null = null;
 
@@ -84,24 +55,26 @@ class PrayTimeNumberData {
 
 
         return this._listpraytimes;
-    }
+    } 
+
+   
 
     constructor(p: PrayTimeData) {
          
-        //this.ptimeData = p;
+        this.ptimeData = p;
     
         // pakai dumy data dulu buat ngetest
-        this.ptimeData = { 
-            asr :     '16:08',
-            dhuhr :   '12:09',
-            fajr :    '10:12',
-            imsak :   '04:46',
-            isha :    '00:44',
-            maghrib :   '18:12',
-            midnight :   '00:09',
-            sunrise :   '06:06',
-            sunset :  '18:12'
-        }
+        // this.ptimeData = { 
+        //     asr :     '16:08',
+        //     dhuhr :   '14:22',
+        //     fajr :    '10:12',
+        //     imsak :   '04:46',
+        //     isha :    '00:44',
+        //     maghrib :   '18:12',
+        //     midnight :   '00:09',
+        //     sunrise :   '06:06',
+        //     sunset :  '18:12'
+        // }
 
     }
 
@@ -111,8 +84,7 @@ class PrayTimeNumberData {
             "fajr",
             "sunrise",
             "dhuhr",
-            "asr",
-            "sunset",
+            "asr", 
             "maghrib",
             "isha"];
 
@@ -135,10 +107,10 @@ class PrayTimeNumberData {
 
 
 
-            let tspan = timeSpan( now,pdate.date);
+            let tspan = SpanTime.countTimeSpan( now,pdate.date);
             if (savedPrayDateSpan.span == null ||
                 savedPrayDateSpan.pdate == null ||
-                savedPrayDateSpan.span.differenceInMilliseconds > tspan.differenceInMilliseconds) {
+                savedPrayDateSpan.span.diffInMilliseconds > tspan.diffInMilliseconds) {
 
                 savedPrayDateSpan = {
                     span: tspan,

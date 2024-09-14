@@ -12,6 +12,7 @@ const options = {
     /** @param {string} fname **/
     getFile: async (fname) => {
 
+
         if(
             !fname.endsWith(".js") &&
             !fname.endsWith(".vue") &&
@@ -22,11 +23,14 @@ const options = {
             fname = fname + ".ts";
         }
       
+ 
+        console.log("ini  " + fname);
         var f = await fetch(dserver + fname);
         var txt = await f.text();
         return txt;
 
-    },
+    }, 
+    
     addStyle(textContent) {
 
         const style = Object.assign(document.createElement('style'), { textContent });

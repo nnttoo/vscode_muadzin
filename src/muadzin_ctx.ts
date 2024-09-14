@@ -10,6 +10,7 @@ export class MuadzinContext {
     private myserver: MyServer;
     private praytimeAlarm : PrayTimeAlarm;
     public settingSaver = new SettingSaver();
+    public urlAddress : string = "";
     private vscode_ctx: vscode.ExtensionContext | null = null;
 
     private constructor() {
@@ -34,13 +35,14 @@ export class MuadzinContext {
         return this.vscode_ctx.extensionPath;
     }
 
-    public onActivate(context: vscode.ExtensionContext) {
+    public   onActivate(context: vscode.ExtensionContext)   {
         this.vscode_ctx = context;
         this.settingSaver.context = context;
         this.praytimeAlarm.startTimer();
+        this.urlAddress =  this.getServerAddressAndStart();
     }
 
-    public getServerAddressAndStart(){ 
+    private getServerAddressAndStart(){ 
         return this.myserver.createServer();
     }
  
