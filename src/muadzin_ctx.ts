@@ -3,7 +3,7 @@ import { MyServer } from './myserver';
 import { SettingSaver } from './settingsaver';
 import { PrayTimeAlarm } from './muadzin_alarm';
 
-import * as PrayTimesTs from "../resources/htmlvue/tslib/PrayTimeTs"
+import * as PrayTimesTs from "./PrayTimeTs"
 
 export class MuadzinContext {
 

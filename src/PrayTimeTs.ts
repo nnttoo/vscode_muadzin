@@ -1,5 +1,5 @@
-import * as PrayTimes from "./PrayTimes.js"
-import type { PrayTimeData, PrayTimeDate } from "./PrayTimeData.ts"
+import * as PrayTimes from "../resources/htmlvue/tslib/PrayTimes.js"
+import type { PrayTimeData, PrayTimeDate } from "../resources/htmlvue/tslib/PrayTimeData.ts"
 import {SpanTime} from "./SpanTime"
 
  
