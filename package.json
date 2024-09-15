@@ -1,4 +1,6 @@
 {
+  "publisher": "SncDoc",
+  "repository": "https://github.com/anandahisanah/adzan-reminder/",
   "name": "muadzin-reminder",
   "displayName": "muadzin_reminder",
   "description": "",
