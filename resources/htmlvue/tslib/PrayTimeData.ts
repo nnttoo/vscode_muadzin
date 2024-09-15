@@ -12,7 +12,8 @@ export type PrayTimeData = {
 
 export type PrayTimeDate = {
     name : string,
-    date : Date
+    date : Date,
+    datestring : string,
 }
 
 export type ConfigData = {

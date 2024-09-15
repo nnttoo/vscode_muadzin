@@ -1,5 +1,5 @@
-import * as PrayTimes from "../resources/htmlvue/tslib/PrayTimes.js"
-import type { PrayTimeData, PrayTimeDate } from "../resources/htmlvue/tslib/PrayTimeData.ts"
+import * as PrayTimes from "./PrayTimes.js"
+import type { PrayTimeData, PrayTimeDate } from "./PrayTimeData.ts"
 import {SpanTime} from "./SpanTime"
 
  
@@ -33,7 +33,7 @@ function strClockToDate(clockstr: string) {
 
 
 
-export class PrayTimeNumberData {
+export class PrayTimeCollection {
     public ptimeData!: PrayTimeData;
     private _listpraytimes: PrayTimeDate[] | null = null;
 
@@ -48,6 +48,7 @@ export class PrayTimeNumberData {
                 this._listpraytimes.push({
                     date: dpray,
                     name: key,
+                    datestring : str,
                 })
 
             }
@@ -56,6 +57,23 @@ export class PrayTimeNumberData {
 
         return this._listpraytimes;
     } 
+
+    public get listPrayTimeSortByTime() : PrayTimeDate[]{
+        let listPrayTime = this.listPrayTimeDate;
+
+        let dateNow = new Date();
+        let sort = listPrayTime.sort((a,b)=>{
+            let spanA = SpanTime.countTimeSpan(a.date,dateNow);
+            let spanB = SpanTime.countTimeSpan(b.date,dateNow);
+
+            if(spanA.diffInMilliseconds > spanB.diffInMilliseconds) return -1;
+            if(spanA.diffInMilliseconds < spanB.diffInMilliseconds) return  1;
+
+            return 0; 
+        });
+
+        return sort;
+    }
 
    
 
@@ -127,9 +145,9 @@ export class PrayTimeNumberData {
 
 
 class PrayTimeTs {
-    getPrayTime(date: Date, lat: Number, lng: Number): PrayTimeNumberData {
+    getPrayTime(date: Date, lat: Number, lng: Number): PrayTimeCollection {
         let p = PrayTimes.getTimes(date, lat, lng);
-        return new PrayTimeNumberData(p);
+        return new PrayTimeCollection(p);
     }
 
 

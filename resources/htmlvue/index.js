@@ -1,45 +1,73 @@
 
 /** @type {string} **/
-var dserver = window.myserveradd ;
-if(dserver.endsWith("/")){
-    dserver = dserver.substring(0,dserver.length - 1);
+var dserver = window.myserveradd;
+if (dserver.endsWith("/")) {
+    dserver = dserver.substring(0, dserver.length - 1);
 
-    
-}
 
+} 
+
+const { loadModule } = window['vue3-sfc-loader'];  
 const options = {
     moduleCache: { vue: Vue },
     /** @param {string} fname **/
-    getFile: async (fname) => {
+    getFile: async (fname) => {  
 
+        console.log("get file : " + fname);
 
-        if(
-            !fname.endsWith(".js") &&
-            !fname.endsWith(".vue") &&
-            !fname.endsWith(".ts") 
+        const regex = /\.\w{2,}$/;
+        let withExtension = regex.test(fname);
 
-            
-        ) {
-            fname = fname + ".ts";
+        if (!withExtension) {
+            /**
+             * Langsung return aja, karena file tanpa extension
+             * akan direwrite pada handleModule
+             */
+            console.log("tanpa extensi : " + fname);
+            return ""; 
+
+        }   
+
+        if(fname.endsWith(".js")){
+            /**
+             * File js diignore aja karena dia akan direwrite menjadi .mjs 
+             * agar bisa dihandle secara .mjs
+             */
+            return "";
         }
-      
- 
-        console.log("ini  " + fname);
+
+        if(fname.endsWith("fake.mjs")){
+            let panjangDipotong = fname.length - ("fake.mjs".length); 
+            fname = fname.substring(0, panjangDipotong); 
+        }  
+
+
         var f = await fetch(dserver + fname);
-        var txt = await f.text();
+        var txt = await f.text();  
         return txt;
 
-    }, 
-    
+    },
+
     addStyle(textContent) {
 
         const style = Object.assign(document.createElement('style'), { textContent });
         const ref = document.head.getElementsByTagName('style')[0] || null;
         document.head.insertBefore(style, ref);
     },
+
+    async handleModule(type, getContentData, path, o) { 
+        if(type == ""){ 
+            return loadModule(path + ".ts",options);
+        }
+
+        if(type == ".js"){
+            return  loadModule( path + "fake.mjs",options);
+        } 
+        return undefined;
+      },
 }
 Vue.createApp(Vue.defineAsyncComponent(
-    () => window['vue3-sfc-loader'].loadModule('/static/vue_component/mainapp.vue', options))
+    () => loadModule('/static/vue_component/mainapp.vue', options))
 
-    
-).mount( document.getElementById("myapp"));
+
+).mount(document.getElementById("myapp"));
