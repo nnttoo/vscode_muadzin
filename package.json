@@ -3,8 +3,9 @@
   "repository": "https://github.com/anandahisanah/adzan-reminder/",
   "name": "muadzin-reminder",
   "displayName": "muadzin_reminder",
+  "icon": "resources/icon/adzan.jpg",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.91.0"
   },
