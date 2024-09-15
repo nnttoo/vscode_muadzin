@@ -29,8 +29,10 @@ const getConfigData = async () => {
 
 const checkNextPrayTime = async ()=>{
     let ex = ()=>{
-        nextPrayTime.value = "";
-        if(data.value == null) return;
+        if(data.value == null) { 
+            nextPrayTime.value = "";
+            return;
+        }
 
         let nextPtime = data.value.getNextPrayTime();
         if(nextPtime.span !=null && nextPtime.pdate != null){
@@ -44,7 +46,11 @@ const checkNextPrayTime = async ()=>{
                     + ":"
                     + Utils.padStr(span.seconds + "",2);
             }
-        } 
+
+            return;
+        }  
+        
+        nextPrayTime.value = "";
     }
 
     while(true){
