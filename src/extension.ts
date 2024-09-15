@@ -1,26 +1,45 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path'; 
+import { MuadzinContext } from './muadzin_ctx';
+import { HtmlGetter } from './html_getter';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+/**
+ * @param {vscode.ExtensionContext} context
+ */
 export function activate(context: vscode.ExtensionContext) {
+ 
+	MuadzinContext.instance.onActivate(context);
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "muadzin-reminder" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('muadzin-reminder.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from muadzin_reminder!');
-	});
-
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider('muadzin-webview', new MyWebViewProvider())
+	);
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider('muadzin-webview-adzan', new MyWebViewProvider())
+	);
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() {}
+class MyWebViewProvider implements vscode.WebviewViewProvider {
+
+	async resolveWebviewView(
+		webviewView: vscode.WebviewView,
+		context: vscode.WebviewViewResolveContext,
+		_token: vscode.CancellationToken
+	) {
+		webviewView.webview.options = {
+			enableScripts: true
+		};
+
+		const panel = webviewView.webview;
+ 
+		var urladdress =MuadzinContext.instance.urlAddress ; 
+		panel.html = await HtmlGetter.getInstance().getIframeHtml(urladdress);
+	}
+}
+
+
+
+export function deactivate() {
+
+	MuadzinContext.instance.onDeactivate();
+}

@@ -1,12 +1,3 @@
 # muadzin-reminder README
- 
-## Task
 
-- Init vscode extension
-- Create temporary UI for testing ui compatibility
-   - create action button  
-     ![ss](./doc_img/actionbutton.png)
-
-- testing pray time library
-- Build UI
-- Deploy
+**Muadzin Alarm** is a VSCode plugin designed to remind you of the five daily prayers. The prayer times are calculated based on longitude and latitude using the PrayTime.js library. Enter the longitude and latitude according to your location, which you can obtain from Google Maps or another mapping service.
