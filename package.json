@@ -5,7 +5,7 @@
   "displayName": "muadzin_reminder",
   "icon": "resources/icon/adzan.jpg",
   "description": "",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.91.0"
   },
@@ -13,7 +13,7 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./out/src/extension.js",
   "contributes": {
@@ -72,8 +72,5 @@
   },
   "dependencies": { 
     "express": "^4.19.2"
-  },
-  "files": [ 
-    "resource/**"
-  ]
+  }
 }
