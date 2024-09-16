@@ -27,4 +27,4 @@ jobs:
       - name: Publish extension
         env:
           VSCE_PAT: ${{ secrets.VSCE_TOKEN }}
-        run: npx vsce publish
+        run: npx vsce publish -p ${{ secrets.VSCE_TOKEN }}
