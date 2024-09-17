@@ -23,9 +23,7 @@ function getFullUrl(relative:string){
 
 async function getJsonFromServer(add : string){
     let res = await fetch(getFullUrl(add));
-    let tst = await res.text();
-
-    console.log(tst);
+    let tst = await res.text(); 
     return JSON.parse(tst);
 }
 
