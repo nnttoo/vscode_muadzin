@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onMounted, onUpdated, ref, toRaw } from "vue"
-import * as serverApi from "./server_API" 
-import  type {ConfigData, PrayTimeData, PrayTimeDate } from "../tslib/PrayTimeData" 
-import { PrayTimeCollection } from "../tslib/PrayTimeTs"
-import { Utils} from "../tslib/Utils"
+    import { onMounted, onUpdated, ref, toRaw } from "vue"
+    import * as serverApi from "../server_API" 
+    import  type {ConfigData, PrayTimeData, PrayTimeDate } from "../../../tslib/PrayTimeData" 
+    import { PrayTimeCollection } from "../../../tslib/PrayTimeTs"
+    import { Utils} from "../../../tslib/Utils" 
 
 
-const data = ref<PrayTimeCollection>(null);
+const data = ref<PrayTimeCollection | null>(null);
 const configData = ref<ConfigData>({} as  ConfigData);
 const msgLoading = ref<string>("");
 const nextPrayTime = ref<string>("");
@@ -14,8 +14,11 @@ const nextPrayTime = ref<string>("");
 const getPrayTime = async () => {
         var praytime = await serverApi.getPrayTimes();
         if (praytime == null) return;
-        delete praytime.midnight;
-        delete praytime.sunset;
+
+        let delobj = praytime as any;
+    
+        delete delobj.midnight;
+        delete delobj.sunset;
         
         let ptimeTools = new PrayTimeCollection(praytime); 
         data.value = ptimeTools;

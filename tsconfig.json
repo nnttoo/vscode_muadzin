@@ -18,7 +18,7 @@
 	}, 
 	"exclude": [
 		"out",
-		"resources",
-		"MuadzinView"
+		"resources", 
+		"MuadzinUi"
 	]
 }
