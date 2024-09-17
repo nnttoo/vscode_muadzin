@@ -6,23 +6,11 @@
     import { Utils} from "../../../tslib/Utils" 
 
 
-const data = ref<PrayTimeCollection | null>(null);
 const configData = ref<ConfigData>({} as  ConfigData);
 const msgLoading = ref<string>("");
 const nextPrayTime = ref<string>("");
 
-const getPrayTime = async () => {
-        var praytime = await serverApi.getPrayTimes();
-        if (praytime == null) return;
 
-        let delobj = praytime as any;
-    
-        delete delobj.midnight;
-        delete delobj.sunset;
-        
-        let ptimeTools = new PrayTimeCollection(praytime); 
-        data.value = ptimeTools;
-    }
 
 const getConfigData = async () => {
     let result = await serverApi.getSetting();
@@ -30,42 +18,9 @@ const getConfigData = async () => {
     configData.value = result;
 }
 
-const checkNextPrayTime = async ()=>{
-    let ex = ()=>{
-        if(data.value == null) { 
-            nextPrayTime.value = "";
-            return;
-        }
 
-        let nextPtime = data.value.getNextPrayTime();
-        if(nextPtime.span !=null && nextPtime.pdate != null){
-            let pdate = nextPtime.pdate;
-            let span = nextPtime.span;
-
-            if(span.diffInMinutes < 60){
-                nextPrayTime.value = pdate.name.toLocaleUpperCase()
-                    + "  : "
-                    + Utils.padStr(span.minutes + "",2) 
-                    + ":"
-                    + Utils.padStr(span.seconds + "",2);
-            }
-
-            return;
-        }  
-        
-        nextPrayTime.value = "";
-    }
-
-    while(true){
-       await Utils.sleep(1000);
-       ex();
-    }
-}
-
-onMounted(() => { 
-    getPrayTime();
-    getConfigData();
-    checkNextPrayTime();
+onMounted(() => {  
+    getConfigData(); 
 });
 
 
@@ -88,9 +43,9 @@ function getNumberFromVal(e: Event) {
 
 const saveConfig = async ()=>{
     msgLoading.value = "save to config";
+    await Utils.sleep(500);
     let cdata = toRaw(configData.value);
-    await serverApi.saveSetting(cdata);
-    getPrayTime();
+    await serverApi.saveSetting(cdata); 
     msgLoading.value = "";
 
 }
@@ -99,9 +54,10 @@ const saveConfig = async ()=>{
 </script>
 <template>
     <div  class="mainframe">
-        <div>{{ msgLoading }}</div>
+        <h3>Setting</h3>
+        <div v-if="msgLoading != ''" class="loadingelem">{{ msgLoading }}</div>
 
-        <div class="setttingform">
+        <div v-if="msgLoading == ''" class="setttingform">
             <div>Lattitude : </div>
             <input :value="configData?.lat" @input="configData.lat = getNumberFromVal($event)" />
             <div>Longitude : </div>
@@ -110,25 +66,13 @@ const saveConfig = async ()=>{
             <div>Alarm Lead Time (Minutes)</div>
             <input :value="configData?.alarmLeadTimeMinute" @input="configData.alarmLeadTimeMinute = getNumberFromVal($event)" />
 
-            <div> 
+            <div class="btncenter"> 
                 <button :disabled="msgLoading != '' " 
                     @click="saveConfig()" >Save</button>
             </div>
         </div>
 
-        <div v-if="nextPrayTime != ''" class="nextpraytime"> 
-            <div>{{ nextPrayTime }}</div>
-        </div>
-
-
-        <h3>Prays Time</h3>
-
-        <table  v-if="data != null">  
-            <tr v-for="k in data.listPrayTimeSortByTime">
-                <td>{{ k.name.toUpperCase() }}</td> 
-                <td style="text-align: right;"> {{ k.datestring }} </td>
-            </tr>
-        </table>
+        
 
     </div>
 </template>
@@ -137,15 +81,15 @@ const saveConfig = async ()=>{
     color: #fff;
     font-family: "Consolas, 'Courier New', monospace";
 }
+.mainframe h3{
+    text-align: center;
+}
+.mainframe .loadingelem{
+    text-align: center;
+    margin-top: 20px;
+}
 .mainframe h1 {
     color: red
-}
-.mainframe .nextpraytime{
-    padding: 10px;
-    border: solid 1px #555;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
 }
 .mainframe input {
     box-sizing: border-box;
@@ -158,12 +102,17 @@ const saveConfig = async ()=>{
     background-color: rgb(241, 245, 244);
     padding: 10px;
 }
-.mainframe table{
-    box-sizing: border-box;
-    width: 100%;
+.setttingform .btncenter{
+    text-align: center;
 }
-.mainframe table th, td { 
-    border: solid 1px #555;
+
+.setttingform .btncenter button{
+    margin-top: 20px;
+    text-align: center;
     padding: 5px;
+    color: #fff;
+    min-width: 150px;
+    background-color: #000;
+    border-radius: 10px;
 }
 </style>
