@@ -32,4 +32,19 @@ export class HtmlGetter{
 		const finalHtml = htmlContent.replaceAll('MYSERVERADD', urladdress);
         return finalHtml;
     }
+
+    public get VuePath(){
+        const filePath = path.join(MuadzinContext.instance.getExtensionPath(), "resources");
+		let vupath = path.join(filePath,"MuadzinUiVue");
+        return vupath;
+    }
+
+    public async getVueHtml(){
+        let vpath = this.VuePath;
+        let pathHtml = path.join(vpath,"index.html");
+        const htmlContent = await fs.promises.readFile(pathHtml, 'utf8');
+        
+        return htmlContent;
+
+    }
 }

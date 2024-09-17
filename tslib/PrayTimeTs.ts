@@ -1,5 +1,5 @@
 import * as PrayTimes from "./PrayTimes.js"
-import type { PrayTimeData, PrayTimeDate } from "./PrayTimeData.ts"
+import type { PrayTimeData, PrayTimeDate } from "./PrayTimeData"
 import {SpanTime} from "./SpanTime"
 
  

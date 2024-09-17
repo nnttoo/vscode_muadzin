@@ -5,10 +5,10 @@ import * as fs from 'fs';
 import express, { urlencoded } from 'express';
 import { Server } from 'http';
 import { SettingSaver } from './settingsaver.js';
-import { ConfigData } from "../resources/htmlvue/tslib/PrayTimeData"
+import { ConfigData } from "../tslib/PrayTimeData.js"
 import   { MuadzinContext } from './muadzin_ctx';
 import { HtmlGetter } from './html_getter.js'; 
-import { Mp3Player} from "../resources/htmlvue/tslib/playaudio.js"
+import { Mp3Player} from "./playaudio.js"
 
 
 async function readBody(req: express.Request) {
@@ -101,12 +101,7 @@ export class MyServer {
 
         });
 
-        app.get("/",async (r,s)=>{
-            s.setHeader('Content-Type', 'text/html'); 
-		    const htmlContent = await HtmlGetter.getInstance().getAnyHtml("index.html");
-		
-            s.send(htmlContent);
-        });
+       
 
         app.get("/adzan",async (r,s)=>{
             var title = r.query.title;
@@ -130,6 +125,24 @@ export class MyServer {
             console.log("pump send");
             s.send("pump");
         });
+
+
+        /**Server Vue */
+
+        app.get("/",async (r,s)=>{
+            s.setHeader('Content-Type', 'text/html'); 
+		    const htmlContent = await HtmlGetter.getInstance().getVueHtml();
+		
+            s.send(htmlContent);
+        });
+        app.use("/vueassets", express.static(
+            path.join(this.muadzin_ctx.getExtensionPath(), 
+            "resources", 
+            "MuadzinUiVue",
+            "vueassets"
+        )));
+       
+        /** Server Vue End */
 
         this.server = app.listen(0)
         var actualPort = (this.server as any)?.address().port;

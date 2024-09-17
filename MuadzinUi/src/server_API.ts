@@ -1,9 +1,12 @@
 
-import type  {ConfigData, PrayTimeData} from "../tslib/PrayTimeData.ts" 
+import type  {ConfigData, PrayTimeData} from "../../tslib/PrayTimeData" 
 
 
 function getFullUrl(relative:string){
-    var add =  (window as any).myserveradd as string;
+    var add = "/";
+    if(import.meta.env.VITE_SERVERURL){
+        add = import.meta.env.VITE_SERVERURL 
+    }
 
     if(add.endsWith("/")){
         add = add.substring(0, add.length - 1);
@@ -27,7 +30,7 @@ async function getJsonFromServer(add : string){
 }
 
 
-export async function getPrayTimes() : Promise<PrayTimeData> {
+export async function getPrayTimes() : Promise<PrayTimeData | null  > {
     try {
  
         let obj = await getJsonFromServer("/gettimes") as PrayTimeData  
@@ -40,7 +43,7 @@ export async function getPrayTimes() : Promise<PrayTimeData> {
 }
 
 
-export async function getSetting() : Promise<ConfigData> {
+export async function getSetting() : Promise<ConfigData | null> {
     try { 
         
         let obj = await getJsonFromServer("/getconfig") as ConfigData  

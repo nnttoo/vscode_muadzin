@@ -1,11 +1,11 @@
 {
   "publisher": "SncDoc",
-  "repository": "https://github.com/anandahisanah/adzan-reminder/",
+  "repository": "https://github.com/nnttoo/vscode_muadzin",
   "name": "muadzin-reminder",
   "displayName": "muadzin_reminder",
   "icon": "resources/icon/adzan.jpg",
   "description": "",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.91.0"
   },
@@ -13,7 +13,7 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./out/src/extension.js",
   "contributes": {
@@ -55,7 +55,9 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "vite_dev": "cd ./MuadzinUi && npm run dev",
+    "vite_build": "cd ./MuadzinUi && npm run build"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
@@ -70,10 +72,8 @@
     "typescript": "^5.4.5",
     "vue": "^3.4.31"
   },
-  "dependencies": { 
+  "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.19.2"
-  },
-  "files": [ 
-    "resource/**"
-  ]
+  }
 }

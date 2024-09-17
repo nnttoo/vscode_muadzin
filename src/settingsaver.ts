@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-import {ConfigData} from "../resources/htmlvue/tslib/PrayTimeData"
+import {ConfigData} from "../tslib/PrayTimeData"
 
 
 export class SettingSaver {
