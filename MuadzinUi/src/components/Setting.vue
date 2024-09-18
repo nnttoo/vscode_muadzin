@@ -41,6 +41,11 @@ function getNumberFromVal(e: Event) {
     return n;
 }
 
+function getCheckList(e : Event){ 
+    let ischeck = (e.target as HTMLInputElement).checked;
+    configData.value.playaudio = ischeck; 
+}
+
 const saveConfig = async ()=>{
     msgLoading.value = "save to config";
     await Utils.sleep(500);
@@ -59,12 +64,15 @@ const saveConfig = async ()=>{
 
         <div v-if="msgLoading == ''" class="setttingform">
             <div>Lattitude : </div>
-            <input :value="configData?.lat" @input="configData.lat = getNumberFromVal($event)" />
+            <input class="iptcenter"  :value="configData?.lat" @input="configData.lat = getNumberFromVal($event)" />
             <div>Longitude : </div>
-            <input :value="configData?.lng" @input="configData.lng = getNumberFromVal($event)" />
+            <input class="iptcenter"  :value="configData?.lng" @input="configData.lng = getNumberFromVal($event)" />
 
             <div>Alarm Lead Time (Minutes)</div>
-            <input :value="configData?.alarmLeadTimeMinute" @input="configData.alarmLeadTimeMinute = getNumberFromVal($event)" />
+            <input class="iptcenter" :value="configData?.alarmLeadTimeMinute" @input="configData.alarmLeadTimeMinute = getNumberFromVal($event)" />
+
+            <div>Play Audio</div>
+            <input  type="checkbox" :checked="configData?.playaudio" @input="getCheckList($event)"> Play Audio
 
             <div class="btncenter"> 
                 <button :disabled="msgLoading != '' " 
@@ -91,7 +99,7 @@ const saveConfig = async ()=>{
 .mainframe h1 {
     color: red
 }
-.mainframe input {
+.mainframe .iptcenter{
     box-sizing: border-box;
     width: 100%;
     padding: 5px;
