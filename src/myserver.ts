@@ -106,9 +106,13 @@ export class MyServer {
         app.get("/adzan",async (r,s)=>{
             var title = r.query.title;
 
-            
-            var audioFile = path.join(MuadzinContext.instance.getExtensionPath(), "resources", "htmlvue", "assets","myadzan.mp3"); 
-            Mp3Player.playAutoStop(audioFile);
+            var setting = settingSaver.getSetting();
+
+            if(setting.playaudio){
+                var audioFile = path.join(MuadzinContext.instance.getExtensionPath(), "resources", "htmlvue", "assets","myadzan.mp3"); 
+                Mp3Player.playAutoStop(audioFile);
+            } 
+
 
             s.setHeader('Content-Type', 'text/html'); 
 		    let htmlContent = await HtmlGetter.getInstance().getAnyHtml("adzan.html");

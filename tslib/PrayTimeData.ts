@@ -34,5 +34,10 @@ export type ConfigData = {
      * 
      */
     alarmLeadTimeMinute : number,
+
+    /**
+     * Opsi apakah play audio atau tidak
+     */
+    playaudio : boolean;
 }
 
