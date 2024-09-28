@@ -14,6 +14,7 @@ const loopAudio = `while ($true) { Start-Sleep -Milliseconds 100; if ($player.Po
 const windowPlayCommand = (path, volume, loop) => `powershell -c ${addPresentationCore} ${createMediaPlayer} ${loadAudioFile(path)} $player.Volume = ${volume}; ${playAudio} ${loop ? loopAudio : stopAudio}`;
 const windowStopCommand = () => `${stopPowerShell}`;
 
+import { SettingSaver } from './settingsaver.js';
 
 //MAC
 const macPlayCommand = (path, volume, loop) => `afplay -v ${volume} ${loop ? '-r' : ''} \"${path}\"`;
@@ -54,12 +55,29 @@ export class Mp3Player {
     }
 
     static timetostop = 0;
-    static async playAutoStop(path){
+    static timePlayStart = 0;
+
+    /**
+     * 
+     * @param {string} path 
+     * @param {SettingSaver} settingSaver 
+     */
+    static async playAutoStop(path, settingSaver){
         this.play(path);
         this.timetostop = Date.now() + 3000;
+        this.timePlayStart = Date.now();
 
         while(Date.now() < this.timetostop){
+
             await sleep(1000); 
+            var setcon = await settingSaver.getSetting();
+            if(setcon.playMaxDuration && setcon.playMaxDuration > 0){
+
+                var actTime = this.timePlayStart + (setcon.playMaxDuration * 1000);
+                if(actTime < Date.now()){
+                    break;
+                }
+            }
         } 
         this.stop();
     }

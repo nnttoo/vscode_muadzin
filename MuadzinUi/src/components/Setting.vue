@@ -71,13 +71,22 @@ const saveConfig = async ()=>{
             <div>Alarm Lead Time (Minutes)</div>
             <input class="iptcenter" :value="configData?.alarmLeadTimeMinute" @input="configData.alarmLeadTimeMinute = getNumberFromVal($event)" />
 
+            <div>
+                Max Play Audio Duration <br>
+                <input  class="iptcenter"  type="input" :value="configData?.playMaxDuration" @input="configData.playMaxDuration = getNumberFromVal($event)"> 
+
+            </div>
+
+
             <div>Play Audio</div>
             <input  type="checkbox" :checked="configData?.playaudio" @input="getCheckList($event)"> Play Audio
 
+          
             <div class="btncenter"> 
                 <button :disabled="msgLoading != '' " 
                     @click="saveConfig()" >Save</button>
             </div>
+
         </div>
 
         

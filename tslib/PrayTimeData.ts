@@ -39,5 +39,8 @@ export type ConfigData = {
      * Opsi apakah play audio atau tidak
      */
     playaudio : boolean;
+
+    /** Maximum durasi play, jika nol maka unlimited */
+    playMaxDuration : number;
 }
 

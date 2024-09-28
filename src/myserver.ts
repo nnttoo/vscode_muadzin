@@ -110,7 +110,7 @@ export class MyServer {
 
             if(setting.playaudio){
                 var audioFile = path.join(MuadzinContext.instance.getExtensionPath(), "resources", "htmlvue", "assets","myadzan.mp3"); 
-                Mp3Player.playAutoStop(audioFile);
+                Mp3Player.playAutoStop(audioFile,settingSaver);
             } 
 
 
@@ -126,7 +126,6 @@ export class MyServer {
 
         app.get("/adzan_pump",(r,s)=>{
             Mp3Player.playAutoStopPump();
-            console.log("pump send");
             s.send("pump");
         });
 

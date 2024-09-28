@@ -84,7 +84,7 @@ export class PrayTimeCollection {
         // pakai dumy data dulu buat ngetest
         // this.ptimeData = { 
         //     asr :     '16:08',
-        //     dhuhr :   '14:22',
+        //     dhuhr :   '13:26',
         //     fajr :    '10:12',
         //     imsak :   '04:46',
         //     isha :    '00:44',
